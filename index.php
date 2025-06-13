@@ -1,16 +1,58 @@
 <?php
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+session_start();
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $usuario = $_POST["usuario"];
-    $contrasena = $_POST["contrasena"];
+require_once 'includes/conexion.php';
+require 'includes/PHPMailer/src/PHPMailer.php';
+require 'includes/PHPMailer/src/SMTP.php';
+require 'includes/PHPMailer/src/Exception.php';
 
-    if ($usuario === "admin" && $contrasena === "1234") {
-        header("Location: Administrador.html");
-        exit();
+$mensaje = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nombre = $_POST["nombre"];
+    $contrasena = md5($_POST["contrasena"]); // Asumiendo que las contraseñas se almacenan con MD5
+
+    $stmt = $conn->prepare("SELECT * FROM login WHERE nombre_completo = ? AND contrasena = ?");
+    $stmt->bind_param("ss", $nombre, $contrasena);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    if ($resultado->num_rows === 1) {
+        $usuario = $resultado->fetch_assoc();
+        $_SESSION["nombre"] = $usuario["nombre_completo"];
+
+        // Datos del correo
+        $correoDestino = $usuario["correo"];
+        $asunto = "Inicio de sesión en el sistema";
+        $mensajeCorreo = "Hola " . $usuario["nombre_completo"] . ", has iniciado sesión correctamente en el sistema.";
+
+        $mail = new PHPMailer(true);
+
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'pruebasistema14@gmail.com';
+            $mail->Password = 'tfxp kgky ryns ujkr'; // Pega aquí la contraseña de aplicación generada
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+
+            $mail->setFrom('pruebasistema14@gmail.com', 'Sistema de Control');
+            $mail->addAddress($correoDestino);
+
+            $mail->Subject = $asunto;
+            $mail->Body = $mensajeCorreo;
+
+            $mail->send();
+            header("Location: Administrador.html");
+            exit;
+        } catch (Exception $e) {
+            $mensaje = "Inicio exitoso pero no se pudo enviar el correo: " . $mail->ErrorInfo;
+        }
     } else {
-        $error = "Usuario o contraseña incorrectos";
+        $mensaje = "Nombre o contraseña incorrectos.";
     }
 }
 ?>
@@ -19,95 +61,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Login - Sistema de Mantenimiento</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/lucide@latest/dist/umd/lucide.min.css" rel="stylesheet">
+    <title>Inicio de Sesión</title>
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        body {
-    background-color: #0f172a; /* azul oscuro */
-    font-family: 'Inter', sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-}
-
-.login-container {
-    background: white;
-    padding: 2rem 3rem;
-    border-radius: 16px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 400px;
-}
-
-.login-container h2 {
-    margin-bottom: 1rem;
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: #0f172a; /* Texto oscuro */
-}
-
-.form-group {
-    margin-bottom: 1rem;
-}
-
-label {
-    font-weight: 600;
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #1e293b; /* Texto visible */
-}
-
-input[type="text"],
-input[type="password"] {
-    width: 100%;
-    padding: 0.6rem;
-    border-radius: 8px;
-    border: 1px solid #cbd5e1;
-    background-color: #f8fafc;
-}
-
-button {
-    width: 100%;
-    background-color: #3b82f6;
-    color: white;
-    border: none;
-    padding: 0.8rem;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-button:hover {
-    background-color: #2563eb;
-}
-
-.error {
-    color: red;
-    margin-bottom: 1rem;
-}
-
-    </style>
 </head>
 <body>
     <div class="login-container">
         <h2>Iniciar Sesión</h2>
-        <?php if (!empty($error)) echo "<p class='error'>$error</p>"; ?>
-        <form method="POST" action="">
-            <div class="form-group">
-                <label for="usuario">Usuario:</label>
-                <input type="text" name="usuario" id="usuario" required>
-            </div>
-            <div class="form-group">
-                <label for="contrasena">Contraseña:</label>
-                <input type="password" name="contrasena" id="contrasena" required>
-            </div>
-            <button type="submit">Ingresar</button>
+        <?php if (!empty($mensaje)) echo "<p class='error'>$mensaje</p>"; ?>
+        <form method="POST">
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" required>
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" name="contrasena" required>
+            <button type="submit">Entrar</button>
         </form>
     </div>
 </body>
