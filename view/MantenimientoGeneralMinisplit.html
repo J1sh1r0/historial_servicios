@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mantenimiento General - Sistema Minisplit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/lucide@latest/dist/umd/lucide.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/stylePlantilla.css?v=1.0.0" />
+</head>
+<body>
+  <!-- Indicador de progreso -->
+  <div class="progress-indicator">
+    <div class="progress-bar" style="width: 0%"></div>
+  </div>
+  <div class="progress-text">
+    Progreso: <span id="progress-percentage">0%</span>
+  </div>
+  <!-- Contenido principal -->
+  <main class="main" role="main">
+    <div class="maintenance-template">
+      <!-- Header de la plantilla -->
+      <div class="template-header">
+        <h1 class="template-title">
+          <i data-lucide="wind"></i>
+          Mantenimiento General de Minisplit
+        </h1>
+        <p class="template-subtitle">
+          Limpieza dentro del hogar - Modo manual parcial
+        </p>
+        
+        <!-- Información del cliente -->
+        <div class="client-info">
+          <div class="client-field">
+            <label for="client-name">Nombre del Cliente</label>
+            <input type="text" id="client-name" placeholder="Nombre completo del cliente">
+          </div>
+          <div class="client-field">
+            <label for="client-address">Dirección</label>
+            <input type="text" id="client-address" placeholder="Dirección del servicio">
+          </div>
+          <div class="client-field">
+            <label for="service-date">Fecha del Servicio</label>
+            <input type="date" id="service-date">
+          </div>
+          <div class="client-field">
+            <label for="service-time">Hora de Inicio</label>
+            <input type="time" id="service-time">
+          </div>
+          <div class="client-field">
+            <label for="equipment-brand">Marca del Equipo</label>
+            <input type="text" id="equipment-brand" placeholder="Ej: LG, Samsung, Carrier">
+          </div>
+          <div class="client-field">
+            <label for="equipment-model">Modelo</label>
+            <input type="text" id="equipment-model" placeholder="Modelo del minisplit">
+          </div>
+        </div>
+      </div>
+
+      <!-- Alerta informativa -->
+      <div class="alert alert-info">
+        <i data-lucide="info"></i>
+        <div>
+          <strong>Importante:</strong> Este mantenimiento se realiza sin desmontar completamente el equipo. 
+          Sigue cada paso y registra todas las actividades para generar un reporte completo.
+        </div>
+      </div>
+
+      <!-- Paso 1: Verificación inicial -->
+      <div class="process-section">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-title">
+            <div class="section-number">1</div>
+            <i data-lucide="power"></i>
+            Verificación Inicial
+          </div>
+          <div class="section-toggle">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <div class="section-content active">
+          <div class="checklist-group">
+            <h3 class="checklist-title">
+              <i data-lucide="check-circle"></i>
+              Encendido y Funcionamiento
+            </h3>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Encender el minisplit</div>
+                <div class="checklist-description">
+                  Verificar que el equipo encienda correctamente y que el display funcione
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Confirmar que enfríe correctamente</div>
+                <div class="checklist-description">
+                  Esperar 5-15 minutos para verificar que el aire salga frío. Esto evita reclamos sobre daños previos.
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Revisar control remoto</div>
+                <div class="checklist-description">
+                  Verificar que todas las funciones del control remoto funcionen correctamente
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="notes-area">
+            <label for="initial-notes">Observaciones Iniciales</label>
+            <textarea id="initial-notes" placeholder="Registra cualquier anomalía o condición especial del equipo..."></textarea>
+          </div>
+
+          <div class="photo-section">
+            <h3 class="photo-section-title">
+              <i data-lucide="camera"></i>
+              Evidencia Fotográfica - Estado Inicial
+            </h3>
+            <div class="photo-upload">
+              <div class="photo-upload-item" onclick="document.getElementById('photo-inicial-1').click()">
+                <div class="photo-upload-label">Foto del equipo encendido</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-inicial-1" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+              
+              <div class="photo-upload-item" onclick="document.getElementById('photo-inicial-2').click()">
+                <div class="photo-upload-label">Herramienta de Tecnico</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-inicial-2" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 2: Revisión del condensador -->
+      <div class="process-section">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-title">
+            <div class="section-number">2</div>
+            <i data-lucide="gauge"></i>
+            Revisión del Condensador
+          </div>
+          <div class="section-toggle">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="alert alert-warning">
+            <i data-lucide="alert-triangle"></i>
+            <div>
+              <strong>Precaución:</strong> Al subir al techo o lugar donde está la unidad exterior, 
+              usar equipo de seguridad apropiado.
+            </div>
+          </div>
+
+          <div class="checklist-group">
+            <h3 class="checklist-title">
+              <i data-lucide="thermometer"></i>
+              Medición de Presión
+            </h3>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+                
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Acceder a la unidad exterior</div>
+                <div class="checklist-description">
+                  Ubicar y acceder de forma segura a la unidad condensadora
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+                
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Conectar el manómetro</div>
+                <div class="checklist-description">
+                  Conectar correctamente el manómetro a la válvula de servicio
+                </div>
+              </div>
+            </div>
+            
+              <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Abrir válvula de baja presión</div>
+                <div class="checklist-description">
+                Abrir cuidadosamente la válvula de baja presión utilizando una llave Allen, asegurando una conexión segura y controlada del sistema.
+                </div>
+              </div>
+          </div>
+
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Verificar presión del sistema</div>
+                <div class="checklist-description">
+                  La presión debe ser normal (120-150 psi). Valores fuera de rango pueden indicar problemas.
+                </div>
+              </div>
+            </div>
+        </div>
+          <div class="measurement-grid">
+            <div class="measurement-field">
+              <label for="pressure-reading">Lectura de Presión</label>
+              <div class="measurement-input">
+                <input type="number" id="pressure-reading" placeholder="0" min="0" max="300" step="1">
+                <span class="measurement-unit">PSI</span>
+              </div>
+            </div>
+            
+            <div class="measurement-field">
+              <label for="pressure-status">Estado de la Presión</label>
+              <select id="pressure-status">
+                <option value="">Seleccionar estado</option>
+                <option value="normal">Normal (120-150 PSI)</option>
+                <option value="baja">Baja (menor a 120 PSI)</option>
+                <option value="alta">Alta (mayor a 150 PSI)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="notes-area">
+            <label for="pressure-notes">Observaciones de Presión</label>
+            <textarea id="pressure-notes" placeholder="Registra cualquier anomalía en la presión o condición del sistema..."></textarea>
+          </div>
+
+          <div class="photo-section">
+            <h3 class="photo-section-title">
+              <i data-lucide="camera"></i>
+              Evidencia Fotográfica - Unidad Exterior
+            </h3>
+            <div class="photo-upload">
+              <div class="photo-upload-item" onclick="document.getElementById('photo-exterior-1').click()">
+                <div class="photo-upload-label">Manómetro conectado</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-exterior-1" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+              
+              <div class="photo-upload-item" onclick="document.getElementById('photo-exterior-2').click()">
+                <div class="photo-upload-label">Estado unidad exterior</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-exterior-2" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 3: Desarme parcial -->
+      <div class="process-section">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-title">
+            <div class="section-number">3</div>
+            <i data-lucide="wrench"></i>
+            Desarme Parcial de Unidad Interior
+          </div>
+          <div class="section-toggle">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="alert alert-warning">
+            <i data-lucide="alert-triangle"></i>
+            <div>
+              <strong>Precaución:</strong> Antes de comenzar, asegúrate de apagar el equipo y desconectarlo de la corriente eléctrica.
+            </div>
+          </div>
+
+          <div class="checklist-group">
+            <h3 class="checklist-title">
+              <i data-lucide="settings"></i>
+              Proceso de Desarme
+            </h3>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+                
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Apagar y desconectar el equipo</div>
+                <div class="checklist-description">
+                  Apagar el minisplit y desconectar de la corriente eléctrica por seguridad
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Retirar carcasa, cubierta frontal y aleta</div>
+                <div class="checklist-description">
+                  Retirar cuidadosamente la carcasa, cubierta frontal y aleta del minisplit
+                </div>
+              </div>
+            </div>
+            
+              <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Quitar display digital</div>
+                <div class="checklist-description">
+                  Desconectar y retirar cuidadosamente el display digital
+                </div>
+              </div>
+            </div>
+
+
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Retirar filtros</div>
+                <div class="checklist-description">
+                  Extraer los filtros de aire para su limpieza posterior
+                </div>
+              </div>
+            </div>
+          
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Proteger componentes eléctricos</div>
+                <div class="checklist-description">
+                  Cubrir con plástico todos los cables eléctricos y componentes sensibles al agua
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="photo-section">
+            <h3 class="photo-section-title">
+              <i data-lucide="camera"></i>
+              Evidencia Fotográfica - Desarme
+            </h3>
+            <div class="photo-upload">
+              <div class="photo-upload-item" onclick="document.getElementById('photo-desarme-1').click()">
+                <div class="photo-upload-label">Estado antes del desarme</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-desarme-1" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+              
+              <div class="photo-upload-item" onclick="document.getElementById('photo-desarme-2').click()">
+                <div class="photo-upload-label">Protección de cables</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-desarme-3" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 4: Preparación para limpieza -->
+      <div class="process-section">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-title">
+            <div class="section-number">4</div>
+            <i data-lucide="shield"></i>
+            Preparación para Limpieza
+          </div>
+          <div class="section-toggle">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="checklist-group">
+            <h3 class="checklist-title">
+              <i data-lucide="umbrella"></i>
+              Protección del Área
+            </h3>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+                
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Colocar cubierta de limpieza</div>
+                <div class="checklist-description">
+                  Instalar la cubierta protectora para evitar derrames de agua y químicos en el hogar
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Proteger muebles y objetos cercanos</div>
+                <div class="checklist-description">
+                  Cubrir o mover muebles y objetos que puedan dañarse con agua o químicos
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Preparar área de drenaje</div>
+                <div class="checklist-description">
+                  Asegurar que el agua de limpieza drene correctamente sin causar daños
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="photo-section">
+            <h3 class="photo-section-title">
+              <i data-lucide="camera"></i>
+              Evidencia Fotográfica - Preparación
+            </h3>
+            <div class="photo-upload">
+              <div class="photo-upload-item" onclick="document.getElementById('photo-prep-1').click()">
+                <div class="photo-upload-label">Cubierta de limpieza instalada</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-prep-1" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+              
+              <div class="photo-upload-item" onclick="document.getElementById('photo-prep-2').click()">
+                <div class="photo-upload-label">Área protegida</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-prep-2" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 5: Aplicación de limpieza -->
+      <div class="process-section">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-title">
+            <div class="section-number">5</div>
+            <i data-lucide="spray-can"></i>
+            Aplicación de Limpieza
+          </div>
+          <div class="section-toggle">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="checklist-group">
+            <h3 class="checklist-title">
+              <i data-lucide="droplets"></i>
+              Proceso de Limpieza
+            </h3>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Aplicar químico limpiador al serpentín</div>
+                <div class="checklist-description">
+                  Rociar uniformemente el químico sobre el serpentín evaporador
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Aplicar químico al rodillo/turbina</div>
+                <div class="checklist-description">
+                  Limpiar el rodillo o turbina con el químico apropiado
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Dejar actuar el químico</div>
+                <div class="checklist-description">
+                  Esperar el tiempo recomendado para que el químico haga efecto (5-10 minutos)
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Lavar con agua a presión</div>
+                <div class="checklist-description">
+                  Enjuagar con agua a presión, evitando componentes eléctricos protegidos
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Limpiar carcasa, cubierta frontal, aleta y filtros</div>
+                <div class="checklist-description">
+                  Lavar la carcasa, filtros y los demás componentes con agua y jabón si es necesario
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="materials-section">
+            <h3 class="materials-title">
+              <i data-lucide="package"></i>
+              Materiales Utilizados
+            </h3>
+            <div class="materials-grid">
+              <div class="material-field">
+                <label for="cleaner-type">Tipo de Químico</label>
+                <input type="text" id="cleaner-type" placeholder="Ej: Limpiador para serpentín">
+              </div>
+              <div class="material-field">
+                <label for="cleaner-amount">Cantidad Usada</label>
+                <input type="text" id="cleaner-amount" placeholder="Ej: 500ml">
+              </div>
+              <div class="material-field">
+                <label for="other-materials">Otros Materiales</label>
+                <textarea id="other-materials" placeholder="Lista otros materiales utilizados..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="photo-section">
+            <h3 class="photo-section-title">
+              <i data-lucide="camera"></i>
+              Evidencia Fotográfica - Limpieza
+            </h3>
+            <div class="photo-upload">
+              <div class="photo-upload-item" onclick="document.getElementById('photo-limpieza-1').click()">
+                <div class="photo-upload-label">Limpieza interna de unidad</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-limpieza-1" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+              
+              <div class="photo-upload-item" onclick="document.getElementById('photo-limpieza-2').click()">
+                <div class="photo-upload-label">Limpieza de componentes</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-limpieza-2" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+   
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 6: Secado -->
+      <div class="process-section">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-title">
+            <div class="section-number">6</div>
+            <i data-lucide="wind"></i>
+            Secado
+          </div>
+          <div class="section-toggle">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="checklist-group">
+            <h3 class="checklist-title">
+              <i data-lucide="droplet-off"></i>
+              Proceso de Secado
+            </h3>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Retirar exceso de agua con trapo</div>
+                <div class="checklist-description">
+                  Secar cuidadosamente todas las superficies accesibles con un trapo limpio
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+             
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Verificar drenaje completo</div>
+                <div class="checklist-description">
+                  Asegurar que toda el agua haya drenado del sistema interno
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+           
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Secar filtros completamente</div>
+                <div class="checklist-description">
+                  Asegurar que los filtros estén completamente secos antes del reensamblaje
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+      
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Tiempo de secado natural</div>
+                <div class="checklist-description">
+                  Permitir 15-20 minutos de secado natural antes de proceder al reensamblaje
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="notes-area">
+            <label for="drying-notes">Observaciones del Secado</label>
+            <textarea id="drying-notes" placeholder="Registra cualquier observación durante el proceso de secado..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 7: Reensamblaje -->
+      <div class="process-section">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-title">
+            <div class="section-number">7</div>
+            <i data-lucide="settings-2"></i>
+            Reensamblaje
+          </div>
+          <div class="section-toggle">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="checklist-group">
+            <h3 class="checklist-title">
+              <i data-lucide="puzzle"></i>
+              Proceso de Reensamblaje
+            </h3>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Retirar protección de cables</div>
+                <div class="checklist-description">
+                  Quitar cuidadosamente el plástico protector de los componentes eléctricos
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Colocar filtros limpios</div>
+                <div class="checklist-description">
+                  Instalar los filtros completamente secos y limpios en su posición original
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Reconectar display digital</div>
+                <div class="checklist-description">
+                  Conectar y colocar el display en su posición original
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Instalar carcasa frontal</div>
+                <div class="checklist-description">
+                  Colocar y asegurar la carcasa frontal en su posición original
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Reconectar energía eléctrica</div>
+                <div class="checklist-description">
+                  Conectar nuevamente el equipo a la corriente eléctrica
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="photo-section">
+            <h3 class="photo-section-title">
+              <i data-lucide="camera"></i>
+              Evidencia Fotográfica - Reensamblaje
+            </h3>
+            <div class="photo-upload">
+              <div class="photo-upload-item" onclick="document.getElementById('photo-reensamble-1').click()">
+                <div class="photo-upload-label">Filtros instalados</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-reensamble-1" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+              
+              <div class="photo-upload-item" onclick="document.getElementById('photo-reensamble-2').click()">
+                <div class="photo-upload-label">Equipo reensamblado</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-reensamble-2" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 8: Prueba final -->
+      <div class="process-section">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-title">
+            <div class="section-number">8</div>
+            <i data-lucide="play-circle"></i>
+            Prueba Final
+          </div>
+          <div class="section-toggle">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="checklist-group">
+            <h3 class="checklist-title">
+              <i data-lucide="check-circle-2"></i>
+              Verificación de Funcionamiento
+            </h3>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Encender el equipo</div>
+                <div class="checklist-description">
+                  Conectar y encender el minisplit para verificar funcionamiento
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Verificar enfriamiento</div>
+                <div class="checklist-description">
+                  Confirmar que el equipo enfríe correctamente después del mantenimiento
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Probar todas las funciones</div>
+                <div class="checklist-description">
+                  Verificar velocidades, temperatura, timer y otras funciones
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Verificar ausencia de ruidos anormales</div>
+                <div class="checklist-description">
+                  Escuchar que el equipo funcione sin ruidos extraños o vibraciones
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox">
+              </div>
+              <div class="checklist-content">
+                <div class="checklist-text">Comprobar drenaje</div>
+                <div class="checklist-description">
+                  Verificar que el drenaje de condensado funcione correctamente
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="final-status">
+            <h3 class="status-title">
+              <i data-lucide="clipboard-check"></i>
+              Estado Final del Equipo
+            </h3>
+            <div class="status-grid">
+              <div class="status-field">
+                <label for="final-status">Estado General</label>
+                <select id="final-status">
+                  <option value="">Seleccionar estado</option>
+                  <option value="excelente">Excelente</option>
+                  <option value="bueno">Bueno</option>
+                  <option value="regular">Regular</option>
+                  <option value="requiere-atencion">Requiere Atención</option>
+                </select>
+              </div>
+              <div class="status-field">
+                <label for="final-temperature">Temperatura Alcanzada</label>
+                <div class="measurement-input">
+                  <input type="number" id="final-temperature" placeholder="0" min="10" max="30" step="0.5">
+                  <span class="measurement-unit">°C</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="photo-section">
+            <h3 class="photo-section-title">
+              <i data-lucide="camera"></i>
+              Evidencia Fotográfica - Estado Final
+            </h3>
+            <div class="photo-upload">
+              <div class="photo-upload-item" onclick="document.getElementById('photo-final-1').click()">
+                <div class="photo-upload-label">Equipo funcionando</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-final-1" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+              
+              <div class="photo-upload-item" onclick="document.getElementById('photo-final-2').click()">
+                <div class="photo-upload-label">Display con temperatura</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-final-2" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+              
+              <div class="photo-upload-item" onclick="document.getElementById('photo-final-3').click()">
+                <div class="photo-upload-label">Área de trabajo limpia</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-final-3" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección de reporte final -->
+      <div class="process-section">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-title">
+            <div class="section-number">9</div>
+            <i data-lucide="file-text"></i>
+            Registro del Servicio
+          </div>
+          <div class="section-toggle">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="report-section">
+            <h3 class="report-title">
+              <i data-lucide="clipboard-list"></i>
+              Observaciones Generales del Servicio
+            </h3>
+            <div class="notes-area">
+              <label for="service-observations">Observaciones del Técnico</label>
+              <textarea id="service-observations" placeholder="Describe el estado general del equipo, problemas encontrados, recomendaciones para el cliente..."></textarea>
+            </div>
+            
+            <div class="notes-area">
+              <label for="recommendations">Recomendaciones para el Cliente</label>
+              <textarea id="recommendations" placeholder="Sugerencias de mantenimiento preventivo, frecuencia de servicio, cuidados especiales..."></textarea>
+            </div>
+          </div>
+
+          <div class="completion-info">
+            <h3 class="completion-title">
+              <i data-lucide="clock"></i>
+              Información de Finalización
+            </h3>
+            <div class="completion-grid">
+              <div class="completion-field">
+                <label for="end-time">Hora de Finalización</label>
+                <input type="time" id="end-time">
+              </div>
+              <div class="completion-field">
+                <label for="service-duration">Duración Total</label>
+                <input type="text" id="service-duration" placeholder="Ej: 2 horas" readonly>
+              </div>
+              <div class="completion-field">
+                <label for="technician-name">Nombre del Técnico</label>
+                <input type="text" id="technician-name" placeholder="Nombre completo del técnico">
+              </div>
+            </div>
+          </div>
+
+          <div class="signature-section">
+            <h3 class="signature-title">
+              <i data-lucide="pen-tool"></i>
+              Firma del Cliente
+            </h3>
+            <div class="signature-area">
+              <canvas id="signature-canvas" width="400" height="200"></canvas>
+              <div class="signature-controls">
+                <button type="button" onclick="clearSignature()" class="btn-secondary">
+                  <i data-lucide="eraser"></i>
+                  Limpiar Firma
+                </button>
+              </div>
+            </div>
+            <div class="client-signature-info">
+              <div class="signature-field">
+                <label for="client-signature-name">Nombre del Cliente</label>
+                <input type="text" id="client-signature-name" placeholder="Nombre de quien recibe el servicio">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="action-buttons">
+        <button type="button" class="btn-secondary" onclick="saveAsDraft()">
+          <i data-lucide="save"></i>
+          Guardar Borrador
+        </button>
+        <button type="button" class="btn-primary" onclick="generateReport()">
+          <i data-lucide="file-check"></i>
+          Generar Reporte Final
+        </button>
+        <button type="button" class="btn-success" onclick="completeService()">
+          <i data-lucide="check-circle"></i>
+          Completar Servicio
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="../js/scriptPlantilla.js"></script>
+</body>
+</html>
