@@ -64,6 +64,7 @@
       margin-left: 0;
     }
   </style>
+     <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
@@ -80,33 +81,54 @@
 
     <div class="sidebar-nav">
       <section class="nav-section">
-        <h2 class="nav-section-title">Principal</h2>
-        
-        <div class="menu-item active" role="button" tabindex="0" aria-label="Ir al dashboard">
-          <i data-lucide="home"></i>
-          Dashboard
-        </div>
+  <h2 class="nav-section-title">Plantillas</h2>
 
-        <div class="menu-item has-submenu" role="button" tabindex="0" 
-             onclick="toggleSubmenu('plantillas')" 
-             onkeydown="handleKeyDown(event, 'plantillas')"
-             aria-expanded="false"
-             aria-controls="submenu-plantillas">
-          <i data-lucide="layers"></i>
-          Plantillas
-        </div>
-        
-        <div id="submenu-plantillas" class="submenu" role="group" aria-labelledby="plantillas-label">
-          <div class="menu-item" role="button" tabindex="0">Mantenimiento Minisplit</div>
-          <div class="menu-item" role="button" tabindex="0">Instalaciones</div>
-          <div class="menu-item" role="button" tabindex="0">Reparaciones</div>
-          <div class="menu-item" role="button" tabindex="0">Reubicaciones</div>
-          <div class="menu-item" role="button" tabindex="0">Eléctrico</div>
-          <div class="menu-item" role="button" tabindex="0">Plomería</div>
-          <div class="menu-item" role="button" tabindex="0">Paredes / Daños</div>
-          <div class="menu-item" role="button" tabindex="0">Recamareras</div>
-        </div>
-      </section>
+  <div class="menu-item has-submenu" role="button" tabindex="0"
+       onclick="toggleSubmenu('minisplit')" 
+       onkeydown="handleKeyDown(event, 'minisplit')"
+       aria-expanded="false"
+       aria-controls="submenu-minisplit">
+    <i data-lucide="wind"></i>
+    Minisplit
+  </div>
+  <div id="submenu-minisplit" class="submenu" role="group" aria-labelledby="minisplit-label">
+    <div class="menu-item" role="button" tabindex="0">Mantenimiento general</div>
+    <div class="menu-item" role="button" tabindex="0">Mantenimiento profundo</div>
+    <div class="menu-item" role="button" tabindex="0">Instalación de minisplit</div>
+    <div class="menu-item" role="button" tabindex="0">Reubicación de unidad</div>
+    <div class="menu-item" role="button" tabindex="0">Reparación de minisplit</div>
+  </div>
+
+  <div class="menu-item has-submenu" role="button" tabindex="0"
+       onclick="toggleSubmenu('servicios')" 
+       onkeydown="handleKeyDown(event, 'servicios')"
+       aria-expanded="false"
+       aria-controls="submenu-servicios">
+    <i data-lucide="wrench"></i>
+    Otros servicios
+  </div>
+  <div id="submenu-servicios" class="submenu" role="group" aria-labelledby="servicios-label">
+    <div class="menu-item" role="button" tabindex="0">Electrico</div>
+    <div class="menu-item" role="button" tabindex="0">Plomería</div>
+    <div class="menu-item" role="button" tabindex="0">Daños en muros</div>
+    <div class="menu-item" role="button" tabindex="0">Limpieza y sanitización</div>
+  </div>
+
+  <div class="menu-item has-submenu" role="button" tabindex="0"
+       onclick="toggleSubmenu('habitaciones')" 
+       onkeydown="handleKeyDown(event, 'habitaciones')"
+       aria-expanded="false"
+       aria-controls="submenu-habitaciones">
+    <i data-lucide="bed"></i>
+    Habitaciones
+  </div>
+  <div id="submenu-habitaciones" class="submenu" role="group" aria-labelledby="habitaciones-label">
+    <div class="menu-item" role="button" tabindex="0">Recámara principal</div>
+    <div class="menu-item" role="button" tabindex="0">Recámara secundaria</div>
+    <div class="menu-item" role="button" tabindex="0">Área común</div>
+    <div class="menu-item" role="button" tabindex="0">Oficina/cuarto de estudio</div>
+  </div>
+</section>
 
       <section class="nav-section">
         <h2 class="nav-section-title">Gestión</h2>
@@ -152,6 +174,7 @@
   </main>
 
   <script src="https://unpkg.com/lucide@latest"></script>
+<<<<<<< HEAD
   <script>
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
@@ -165,5 +188,8 @@
 
     lucide.createIcons();
   </script>
+=======
+  <script src="js/script.js"></script>
+>>>>>>> 2672d22979ad9a270264f9e7b80f6a2c06875b78
 </body>
 </html>
