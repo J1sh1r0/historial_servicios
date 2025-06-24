@@ -1,6 +1,9 @@
 <?php
 // Conexión a la base de datos
 include 'conexion.php';
+$dummy = null;
+ini_set('max_execution_time', 300);
+ini_set('memory_limit', '256M');
 
 try {
     // Validar que todos los datos hayan llegado correctamente
@@ -24,7 +27,9 @@ try {
         $stmt = $conn->prepare("INSERT INTO historial 
             (numero_habitacion, nombre_cliente, fecha_servicio, archivo_pdf, nombre_archivo) 
             VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $numeroHabitacion, $nombreCliente, $fechaServicio, $contenidoPDF, $nombreArchivo);
+        $stmt->bind_param("sssss", $numeroHabitacion, $nombreCliente, $fechaServicio, $dummy, $nombreArchivo);
+        $stmt->send_long_data(3, $contenidoPDF);
+
 
         if ($stmt->execute()) {
             echo "PDF guardado correctamente en la base de datos.";

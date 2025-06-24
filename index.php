@@ -1,13 +1,13 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-session_start();
+//session_start();
 // Si no hay sesión pero existe la cookie, reactivar sesión
-if (!isset($_SESSION["usuario"]) && isset($_COOKIE["usuario_recordado"])) {
+/*if (!isset($_SESSION["usuario"]) && isset($_COOKIE["usuario_recordado"])) {
     $_SESSION["usuario"] = $_COOKIE["usuario_recordado"];
     header("Location: Administrador.php");
     exit;
-}
+}*/
 
 //if (isset($_SESSION["usuario"])) {
 //    header("Location: Administrador.php");
