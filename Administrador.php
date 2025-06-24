@@ -1,3 +1,17 @@
+<?php
+session_start();
+
+// Evita que el navegador guarde en caché esta página
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
+if (!isset($_SESSION["usuario"])) {
+    header("Location: index.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -36,12 +50,15 @@
     Minisplit
   </div>
   <div id="submenu-minisplit" class="submenu" role="group" aria-labelledby="minisplit-label">
+  <a href="view/MantenimientoGeneralMinisplit.html">
     <div class="menu-item" role="button" tabindex="0">Mantenimiento general</div>
-    <div class="menu-item" role="button" tabindex="0">Mantenimiento profundo</div>
-    <div class="menu-item" role="button" tabindex="0">Instalación de minisplit</div>
-    <div class="menu-item" role="button" tabindex="0">Reubicación de unidad</div>
-    <div class="menu-item" role="button" tabindex="0">Reparación de minisplit</div>
-  </div>
+  </a>
+  <div class="menu-item" role="button" tabindex="0">Mantenimiento profundo</div>
+  <div class="menu-item" role="button" tabindex="0">Instalación de minisplit</div>
+  <div class="menu-item" role="button" tabindex="0">Reubicación de unidad</div>
+  <div class="menu-item" role="button" tabindex="0">Reparación de minisplit</div>
+</div>
+
 
   <div class="menu-item has-submenu" role="button" tabindex="0"
        onclick="toggleSubmenu('servicios')" 
@@ -57,7 +74,6 @@
     <div class="menu-item" role="button" tabindex="0">Daños en muros</div>
     <div class="menu-item" role="button" tabindex="0">Limpieza y sanitización</div>
   </div>
-
   <div class="menu-item has-submenu" role="button" tabindex="0"
        onclick="toggleSubmenu('habitaciones')" 
        onkeydown="handleKeyDown(event, 'habitaciones')"
@@ -67,11 +83,25 @@
     Habitaciones
   </div>
   <div id="submenu-habitaciones" class="submenu" role="group" aria-labelledby="habitaciones-label">
-    <div class="menu-item" role="button" tabindex="0">Recámara principal</div>
-    <div class="menu-item" role="button" tabindex="0">Recámara secundaria</div>
-    <div class="menu-item" role="button" tabindex="0">Área común</div>
-    <div class="menu-item" role="button" tabindex="0">Oficina/cuarto de estudio</div>
+    <div class="menu-item" role="button" tabindex="0">Recámara</div>
   </div>
+
+ <div class="menu-item has-submenu" role="button" tabindex="0"
+     onclick="toggleSubmenu('historial')" 
+     onkeydown="handleKeyDown(event, 'historial')"
+     aria-expanded="false"
+     aria-controls="submenu-historial">
+  <i data-lucide="history"></i>
+  Historial
+<div id="submenu-historial" class="submenu" role="group" aria-labelledby="historial-label">
+  <div class="menu-item" role="button" tabindex="0" onclick="abrirPlantilla('200')">Habitacion 200</div>
+  <div class="menu-item" role="button" tabindex="0" onclick="abrirPlantilla('201')">Habitacion 201</div>
+  <div class="menu-item" role="button" tabindex="0" onclick="abrirPlantilla('202')">Habitacion 202</div>
+  <div class="menu-item" role="button" tabindex="0" onclick="abrirPlantilla('203')">Habitacion 203</div>
+  <div class="menu-item" role="button" tabindex="0" onclick="abrirPlantilla('204')">Habitacion 204</div>
+  <div class="menu-item" role="button" tabindex="0" onclick="abrirPlantilla('205')">Habitacion 205</div>
+</div>
+
 </section>
 
       <section class="nav-section">
@@ -95,10 +125,11 @@
     </div>
 
     <footer class="sidebar-footer">
-      <button class="logout-btn" onclick="logout()" aria-label="Cerrar sesión">
-        <i data-lucide="log-out"></i>
-        Cerrar sesión
-      </button>
+      <form action="logout.php" method="post" style="margin: 0;">
+  <button type="submit" class="logout-btn" aria-label="Cerrar sesión">
+    <i data-lucide="log-out"></i> Cerrar sesión
+  </button>
+</form>
     </footer>
   </nav>
 
@@ -120,5 +151,33 @@
 
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="js/script.js"></script>
+  <script>
+  // Previene navegación con flechas atrás/adelante si no hay sesión válida
+  if (performance.navigation.type === 2) {
+    location.reload(true); // fuerza recarga desde el servidor, no desde caché
+  }
+</script>
+<script>
+  window.addEventListener("pageshow", function (event) {
+    // Si la página viene del caché (navegación hacia atrás)
+    if (event.persisted) {
+      // Hacemos logout automático
+      fetch('auto_logout.php', {
+        method: 'POST'
+      }).then(() => {
+        // Luego redirigimos al login
+        window.location.href = 'index.php';
+      });
+    }
+  });
+</script>
+<script>
+  function abrirPlantilla(numeroHabitacion) {
+    // Redirige al archivo historial.html en la carpeta 'view', con el número de habitación como parámetro GET
+    window.location.href = `view/historial.html?habitacion=${numeroHabitacion}`;
+  }
+</script>
+
+
 </body>
 </html>

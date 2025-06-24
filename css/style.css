@@ -1010,3 +1010,81 @@ body.login-page::before {
     border-width: 2px;
   }
 }
+
+/* CSS adicional para la tabla de reportes */
+        .main-subtitle {
+            color: var(--gray-600);
+            font-size: var(--font-size-sm);
+            margin: 0;
+        }
+
+        .reports-table-container {
+            overflow-x: auto;
+        }
+
+        .reports-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+        }
+
+        .reports-table th {
+            background: var(--gray-50);
+            padding: var(--space-4);
+            text-align: left;
+            font-weight: 600;
+            font-size: var(--font-size-sm);
+            color: var(--gray-700);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .reports-table td {
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--gray-200);
+            font-size: var(--font-size-sm);
+        }
+
+        .reports-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .reports-table tbody tr:hover:not(.empty-state) {
+            background: var(--gray-50);
+        }
+
+        .empty-state-content {
+            text-align: center;
+            padding: var(--space-8);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-4);
+        }
+
+        .empty-state-content h3 {
+            color: var(--gray-700);
+            margin-bottom: var(--space-2);
+            font-size: var(--font-size-lg);
+        }
+
+        .empty-state-content p {
+            color: var(--gray-500);
+            font-size: var(--font-size-sm);
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .main-header > div {
+                flex-direction: column !important;
+                gap: var(--space-4) !important;
+                align-items: flex-start !important;
+            }
+
+            .main-header .action-btn {
+                align-self: flex-end;
+            }
+        }

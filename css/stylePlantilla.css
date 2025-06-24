@@ -1150,3 +1150,22 @@ select.field-error:focus {
     padding: var(--space-4);
   }
 }
+
+.photo-upload {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.photo-upload-item {
+  width: 48%;
+}
+
+.photo-upload-item img {
+  width: 100%;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+

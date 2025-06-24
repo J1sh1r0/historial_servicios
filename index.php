@@ -2,6 +2,17 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 session_start();
+// Si no hay sesión pero existe la cookie, reactivar sesión
+if (!isset($_SESSION["usuario"]) && isset($_COOKIE["usuario_recordado"])) {
+    $_SESSION["usuario"] = $_COOKIE["usuario_recordado"];
+    header("Location: Administrador.php");
+    exit;
+}
+
+//if (isset($_SESSION["usuario"])) {
+//    header("Location: Administrador.php");
+//    exit;
+//}
 
 require_once 'includes/conexion.php';
 require 'includes/PHPMailer/src/PHPMailer.php';
@@ -11,7 +22,7 @@ require 'includes/PHPMailer/src/Exception.php';
 $mensaje = "";
 
 // Enviar código al correo
-if (isset($_POST["recuperar_codigo"])) {
+/*if (isset($_POST["recuperar_codigo"])) {
     $nombreUsuario = $_POST["usuario_recuperar"];
 
     $stmt = $conn->prepare("SELECT * FROM login WHERE nombre_completo = ?");
@@ -51,9 +62,9 @@ if (isset($_POST["recuperar_codigo"])) {
     } else {
         echo "<script>alert('Nombre de usuario no encontrado');</script>";
     }
-}
+}*/
 // Verificar código ingresado
-if (isset($_POST["verificar_codigo"])) {
+/*if (isset($_POST["verificar_codigo"])) {
     $codigoIngresado = strtoupper(trim($_POST["codigo_ingresado"]));
     $codigoGuardado = $_SESSION["codigo_recuperacion"] ?? '';
     $expira = $_SESSION["codigo_expira"] ?? 0;
@@ -89,7 +100,7 @@ if (isset($_POST["cambiar_contrasena_confirmado"])) {
     } else {
         echo "<script>alert('Error al actualizar la contraseña.');</script>";
     }
-}
+}*/
 
 // Inicio de sesión usando password_verify
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["usuario"])) {
@@ -105,7 +116,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["usuario"])) {
         $usuario = $resultado->fetch_assoc();
 
         if (password_verify($contrasena, $usuario["contrasena"])) {
-            $_SESSION["usuario"] = $usuario["nombre_completo"];
+    $_SESSION["usuario"] = $usuario["nombre_completo"];
+
+    // Si se marcó el checkbox de recordarme
+    if (isset($_POST["remember"])) {
+        setcookie("usuario_recordado", $usuario["nombre_completo"], time() + (86400 * 7), "/"); // 7 días
+    }
+
 
             $correoDestino = $usuario["correo"];
             $asunto = "Inicio de sesión en el sistema";
@@ -127,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["usuario"])) {
                 $mail->Body = $mensajeCorreo;
 
                 $mail->send();
-                header("Location: Administrador.html");
+                header("Location: Administrador.php");
                 exit;
             } catch (Exception $e) {
                 $mensaje = "Inicio exitoso pero no se pudo enviar el correo: {$mail->ErrorInfo}";

@@ -6,7 +6,7 @@
   <title>Mantenimiento General - Sistema Minisplit</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://unpkg.com/lucide@latest/dist/umd/lucide.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../css/stylePlantilla.css?v=1.0.0" />
+  <link rel="stylesheet" href="../css/stylePlantilla.css" />
 </head>
 <body>
   <!-- Indicador de progreso -->
@@ -18,7 +18,7 @@
   </div>
   <!-- Contenido principal -->
   <main class="main" role="main">
-    <div class="maintenance-template">
+    <div class="maintenance-template" id="reporte-pdf">
       <!-- Header de la plantilla -->
       <div class="template-header">
         <h1 class="template-title">
@@ -55,6 +55,19 @@
             <label for="equipment-model">Modelo</label>
             <input type="text" id="equipment-model" placeholder="Modelo del minisplit">
           </div>
+          <div class="client-field">
+  <label for="numero_habitacion">Número de Habitación</label>
+  <select id="numero_habitacion" class="form-control">
+    <option value="">Seleccione una habitación</option>
+    <option value="200">200</option>
+    <option value="201">201</option>
+    <option value="202">202</option>
+    <option value="203">203</option>
+    <option value="204">204</option>
+    <option value="205">205</option>
+  </select>
+</div>
+
         </div>
       </div>
 
@@ -94,6 +107,7 @@
                 <div class="checklist-text">Encender el minisplit</div>
                 <div class="checklist-description">
                   Verificar que el equipo encienda correctamente y que el display funcione
+                  <input type="checkbox" id="check-encender" style="display: none;" />
                 </div>
               </div>
             </div>
@@ -105,6 +119,7 @@
                 <div class="checklist-text">Confirmar que enfríe correctamente</div>
                 <div class="checklist-description">
                   Esperar 5-15 minutos para verificar que el aire salga frío. Esto evita reclamos sobre daños previos.
+                  <input type="checkbox" id="check-enfria" style="display: none;" />
                 </div>
               </div>
             </div>
@@ -116,6 +131,7 @@
                 <div class="checklist-text">Revisar control remoto</div>
                 <div class="checklist-description">
                   Verificar que todas las funciones del control remoto funcionen correctamente
+                  <input type="checkbox" id="check-control" style="display: none;" />
                 </div>
               </div>
             </div>
@@ -185,6 +201,7 @@
               <div class="checklist-checkbox">
                 
               </div>
+              <input type="checkbox" id="check-acceder" style="margin-right: 10px;">
               <div class="checklist-content">
                 <div class="checklist-text">Acceder a la unidad exterior</div>
                 <div class="checklist-description">
@@ -195,7 +212,7 @@
             
             <div class="checklist-item" onclick="toggleChecklist(this)">
               <div class="checklist-checkbox">
-                
+                <input type="checkbox" id="check-manometro" style="margin-right: 10px;">
               </div>
               <div class="checklist-content">
                 <div class="checklist-text">Conectar el manómetro</div>
@@ -207,6 +224,7 @@
             
               <div class="checklist-item" onclick="toggleChecklist(this)">
               <div class="checklist-checkbox">
+                <input type="checkbox" id="check-valvula" style="margin-right: 10px;">
               </div>
               <div class="checklist-content">
                 <div class="checklist-text">Abrir válvula de baja presión</div>
@@ -218,6 +236,7 @@
 
             <div class="checklist-item" onclick="toggleChecklist(this)">
               <div class="checklist-checkbox">
+                <input type="checkbox" id="check-presion" style="margin-right: 10px;">
               </div>
               <div class="checklist-content">
                 <div class="checklist-text">Verificar presión del sistema</div>
@@ -258,22 +277,22 @@
               Evidencia Fotográfica - Unidad Exterior
             </h3>
             <div class="photo-upload">
-              <div class="photo-upload-item" onclick="document.getElementById('photo-exterior-1').click()">
+              <div class="photo-upload-item" onclick="document.getElementById('photo-condensador-1').click()">
                 <div class="photo-upload-label">Manómetro conectado</div>
                 <div class="photo-upload-content">
                   <i data-lucide="camera" class="photo-upload-icon"></i>
                   <span class="photo-upload-text">Tomar foto</span>
                 </div>
-                <input type="file" id="photo-exterior-1" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+                <input type="file" id="photo-condensador-1" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
               </div>
               
-              <div class="photo-upload-item" onclick="document.getElementById('photo-exterior-2').click()">
+              <div class="photo-upload-item" onclick="document.getElementById('photo-condensador-2').click()">
                 <div class="photo-upload-label">Estado unidad exterior</div>
                 <div class="photo-upload-content">
                   <i data-lucide="camera" class="photo-upload-icon"></i>
                   <span class="photo-upload-text">Tomar foto</span>
                 </div>
-                <input type="file" id="photo-exterior-2" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+                <input type="file" id="photo-condensador-2" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
               </div>
             </div>
           </div>
@@ -281,6 +300,8 @@
       </div>
 
       <!-- Paso 3: Desarme parcial -->
+
+      
       <div class="process-section">
         <div class="section-header" onclick="toggleSection(this)">
           <div class="section-title">
@@ -314,6 +335,7 @@
                 <div class="checklist-text">Apagar y desconectar el equipo</div>
                 <div class="checklist-description">
                   Apagar el minisplit y desconectar de la corriente eléctrica por seguridad
+                  <input type="checkbox" id="check-step3-1" style="display:none" />
                 </div>
               </div>
             </div>
@@ -325,6 +347,7 @@
                 <div class="checklist-text">Retirar carcasa, cubierta frontal y aleta</div>
                 <div class="checklist-description">
                   Retirar cuidadosamente la carcasa, cubierta frontal y aleta del minisplit
+                  <input type="checkbox" id="check-step3-2" style="display:none" />
                 </div>
               </div>
             </div>
@@ -336,6 +359,7 @@
                 <div class="checklist-text">Quitar display digital</div>
                 <div class="checklist-description">
                   Desconectar y retirar cuidadosamente el display digital
+                  <input type="checkbox" id="check-step3-3" style="display:none" />
                 </div>
               </div>
             </div>
@@ -348,6 +372,7 @@
                 <div class="checklist-text">Retirar filtros</div>
                 <div class="checklist-description">
                   Extraer los filtros de aire para su limpieza posterior
+                  <input type="checkbox" id="check-step3-4" style="display:none" />
                 </div>
               </div>
             </div>
@@ -360,6 +385,7 @@
                 <div class="checklist-text">Proteger componentes eléctricos</div>
                 <div class="checklist-description">
                   Cubrir con plástico todos los cables eléctricos y componentes sensibles al agua
+                  <input type="checkbox" id="check-step3-5" style="display:none" />
                 </div>
               </div>
             </div>
@@ -386,12 +412,14 @@
                   <i data-lucide="camera" class="photo-upload-icon"></i>
                   <span class="photo-upload-text">Tomar foto</span>
                 </div>
-                <input type="file" id="photo-desarme-3" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+                <input type="file" id="photo-desarme-2" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      
 
       <!-- Paso 4: Preparación para limpieza -->
       <div class="process-section">
@@ -420,6 +448,7 @@
                 <div class="checklist-text">Colocar cubierta de limpieza</div>
                 <div class="checklist-description">
                   Instalar la cubierta protectora para evitar derrames de agua y químicos en el hogar
+                  <input type="checkbox" id="check-step4-1" style="display:none" />
                 </div>
               </div>
             </div>
@@ -432,6 +461,7 @@
                 <div class="checklist-text">Proteger muebles y objetos cercanos</div>
                 <div class="checklist-description">
                   Cubrir o mover muebles y objetos que puedan dañarse con agua o químicos
+                  <input type="checkbox" id="check-step4-2" style="display:none" />
                 </div>
               </div>
             </div>
@@ -443,6 +473,7 @@
                 <div class="checklist-text">Preparar área de drenaje</div>
                 <div class="checklist-description">
                   Asegurar que el agua de limpieza drene correctamente sin causar daños
+                  <input type="checkbox" id="check-step4-3" style="display:none" />
                 </div>
               </div>
             </div>
@@ -502,6 +533,7 @@
                 <div class="checklist-text">Aplicar químico limpiador al serpentín</div>
                 <div class="checklist-description">
                   Rociar uniformemente el químico sobre el serpentín evaporador
+                  <input type="checkbox" id="check-step5-1" style="display:none" />
                 </div>
               </div>
             </div>
@@ -513,6 +545,7 @@
                 <div class="checklist-text">Aplicar químico al rodillo/turbina</div>
                 <div class="checklist-description">
                   Limpiar el rodillo o turbina con el químico apropiado
+                  <input type="checkbox" id="check-step5-2" style="display:none" />
                 </div>
               </div>
             </div>
@@ -524,6 +557,7 @@
                 <div class="checklist-text">Dejar actuar el químico</div>
                 <div class="checklist-description">
                   Esperar el tiempo recomendado para que el químico haga efecto (5-10 minutos)
+                  <input type="checkbox" id="check-step5-3" style="display:none" />
                 </div>
               </div>
             </div>
@@ -535,6 +569,7 @@
                 <div class="checklist-text">Lavar con agua a presión</div>
                 <div class="checklist-description">
                   Enjuagar con agua a presión, evitando componentes eléctricos protegidos
+                  <input type="checkbox" id="check-step5-4" style="display:none" />
                 </div>
               </div>
             </div>
@@ -546,6 +581,7 @@
                 <div class="checklist-text">Limpiar carcasa, cubierta frontal, aleta y filtros</div>
                 <div class="checklist-description">
                   Lavar la carcasa, filtros y los demás componentes con agua y jabón si es necesario
+                  <input type="checkbox" id="check-step5-5" style="display:none" />
                 </div>
               </div>
             </div>
@@ -629,6 +665,7 @@
                 <div class="checklist-text">Retirar exceso de agua con trapo</div>
                 <div class="checklist-description">
                   Secar cuidadosamente todas las superficies accesibles con un trapo limpio
+                  <input type="checkbox" id="check-step6-1" style="display:none" />
                 </div>
               </div>
             </div>
@@ -641,6 +678,7 @@
                 <div class="checklist-text">Verificar drenaje completo</div>
                 <div class="checklist-description">
                   Asegurar que toda el agua haya drenado del sistema interno
+                  <input type="checkbox" id="check-step6-2" style="display:none" />
                 </div>
               </div>
             </div>
@@ -653,6 +691,7 @@
                 <div class="checklist-text">Secar filtros completamente</div>
                 <div class="checklist-description">
                   Asegurar que los filtros estén completamente secos antes del reensamblaje
+                  <input type="checkbox" id="check-step6-3" style="display:none" />
                 </div>
               </div>
             </div>
@@ -665,6 +704,7 @@
                 <div class="checklist-text">Tiempo de secado natural</div>
                 <div class="checklist-description">
                   Permitir 15-20 minutos de secado natural antes de proceder al reensamblaje
+                  <input type="checkbox" id="check-step6-4" style="display:none" />
                 </div>
               </div>
             </div>
@@ -703,6 +743,7 @@
                 <div class="checklist-text">Retirar protección de cables</div>
                 <div class="checklist-description">
                   Quitar cuidadosamente el plástico protector de los componentes eléctricos
+                  <input type="checkbox" id="check-step7-1" style="display:none" />
                 </div>
               </div>
             </div>
@@ -714,6 +755,7 @@
                 <div class="checklist-text">Colocar filtros limpios</div>
                 <div class="checklist-description">
                   Instalar los filtros completamente secos y limpios en su posición original
+                  <input type="checkbox" id="check-step7-2" style="display:none" />
                 </div>
               </div>
             </div>
@@ -725,6 +767,7 @@
                 <div class="checklist-text">Reconectar display digital</div>
                 <div class="checklist-description">
                   Conectar y colocar el display en su posición original
+                  <input type="checkbox" id="check-step7-3" style="display:none" />
                 </div>
               </div>
             </div>
@@ -736,6 +779,7 @@
                 <div class="checklist-text">Instalar carcasa frontal</div>
                 <div class="checklist-description">
                   Colocar y asegurar la carcasa frontal en su posición original
+                  <input type="checkbox" id="check-step7-4" style="display:none" />
                 </div>
               </div>
             </div>
@@ -747,6 +791,7 @@
                 <div class="checklist-text">Reconectar energía eléctrica</div>
                 <div class="checklist-description">
                   Conectar nuevamente el equipo a la corriente eléctrica
+                  <input type="checkbox" id="check-step7-5" style="display:none" />
                 </div>
               </div>
             </div>
@@ -806,6 +851,7 @@
                 <div class="checklist-text">Encender el equipo</div>
                 <div class="checklist-description">
                   Conectar y encender el minisplit para verificar funcionamiento
+                  <input type="checkbox" id="check-step8-1" style="display:none" />
                 </div>
               </div>
             </div>
@@ -817,6 +863,8 @@
                 <div class="checklist-text">Verificar enfriamiento</div>
                 <div class="checklist-description">
                   Confirmar que el equipo enfríe correctamente después del mantenimiento
+                  <input type="checkbox" id="check-step8-2" style="display:none" />
+
                 </div>
               </div>
             </div>
@@ -828,6 +876,7 @@
                 <div class="checklist-text">Probar todas las funciones</div>
                 <div class="checklist-description">
                   Verificar velocidades, temperatura, timer y otras funciones
+                  <input type="checkbox" id="check-step8-3" style="display:none" />
                 </div>
               </div>
             </div>
@@ -839,6 +888,7 @@
                 <div class="checklist-text">Verificar ausencia de ruidos anormales</div>
                 <div class="checklist-description">
                   Escuchar que el equipo funcione sin ruidos extraños o vibraciones
+                  <input type="checkbox" id="check-step8-4" style="display:none" />
                 </div>
               </div>
             </div>
@@ -850,6 +900,7 @@
                 <div class="checklist-text">Comprobar drenaje</div>
                 <div class="checklist-description">
                   Verificar que el drenaje de condensado funcione correctamente
+                  <input type="checkbox" id="check-step8-5" style="display:none" />
                 </div>
               </div>
             </div>
@@ -1011,6 +1062,10 @@
   </main>
 
   <script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="../js/scriptPlantilla.js"></script>
+  <!-- Div oculto que usaremos solo para generar el PDF -->
+<div id="reporte-final" style="display: none;"></div>
 </body>
 </html>

@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mantenimiento General - Sistema Minisplit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/lucide@latest/dist/umd/lucide.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/stylePlantilla.css?v=1.0.0" />
+</head>
+<body>
+  <!-- Indicador de progreso -->
+  <div class="progress-indicator">
+    <div class="progress-bar" style="width: 0%"></div>
+  </div>
+  <div class="progress-text">
+    Progreso: <span id="progress-percentage">0%</span>
+  </div>
+  <!-- Contenido principal -->
+  <main class="main" role="main">
+    <div class="maintenance-template">
+      <!-- Header de la plantilla -->
+      <div class="template-header">
+        <h1 class="template-title">
+          <i data-lucide="bed"></i>
+          Habitaciones
+        </h1>
+        <p class="template-subtitle">
+          Reportes de limpieza de habitaciones
+        </p>
+        
+        <!-- Información -->
+        <div class="client-info">
+          <div class="client-field">
+            <label for="client-name">Nombre del Personal</label>
+            <input type="text" id="staff-name" placeholder="Nombre completo">
+          </div>
+          <div class="client-field">
+            <label for="client-name">Nombre del Hotel o Motel</label>
+            <input type="text" id="property-name" placeholder="Ej: Hotel Sol Naciente, Motel Eclipse">
+          </div>
+          <div class="client-field">
+            <label for="client-address">Número de Habitación</label>
+            <input type="text" id="room-number" placeholder="Ej: 101">
+          </div>
+          <div class="client-field">
+            <label for="service-date">Fecha del Servicio</label>
+            <input type="date" id="service-date">
+          </div>
+          <div class="client-field">
+            <label for="service-time">Hora de Inicio</label>
+            <input type="time" id="service-time">
+          </div>      
+        </div>
+      </div>
+      <!-- Alerta informativa -->
+      <div class="alert alert-info">
+        <i data-lucide="info"></i>
+        <div>
+          <strong>Importante:</strong> 
+          Sigue cada paso y registra todas las actividades para generar un reporte completo.
+        </div>
+      </div>
+
+     <!-- Paso 1: Inspección inicial -->
+      <div class="process-section">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-title">
+            <div class="section-number">1</div>
+            <i data-lucide="search"></i>
+            Inspección Inicial
+          </div>
+          <div class="section-toggle">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <div class="section-content active">
+          <div class="checklist-group">
+            <h3 class="checklist-title">
+              <i data-lucide="eye"></i>
+              Estado General de la Habitación
+            </h3>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Verificar estado general de la habitación</div>
+                <div class="checklist-description">
+                  Revisar daños, manchas, olores o cualquier anomalía antes de comenzar
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Revisar inventario de amenidades</div>
+                <div class="checklist-description">
+                  Verificar toallas, sábanas, almohadas y elementos faltantes
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Inspeccionar funcionamiento de equipos</div>
+                <div class="checklist-description">
+                  Verificar que TV, aire acondicionado, luces y otros equipos funcionen
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="notes-area">
+            <label for="initial-notes">Observaciones Iniciales</label>
+            <textarea id="initial-notes" placeholder="Registra el estado inicial de la habitación, daños encontrados, elementos faltantes..."></textarea>
+          </div>
+
+          <div class="photo-section">
+            <h3 class="photo-section-title">
+              <i data-lucide="camera"></i>
+              Evidencia Fotográfica - Estado Inicial
+            </h3>
+            <div class="photo-upload">
+              <div class="photo-upload-item" onclick="document.getElementById('photo-inicial-1').click()">
+                <div class="photo-upload-label">Estado general de la habitación</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-inicial-1" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 2: Recolección de ropa y desechos -->
+      <div class="process-section">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-title">
+            <div class="section-number">2</div>
+            <i data-lucide="trash-2"></i>
+            Recolección y Clasificación
+          </div>
+          <div class="section-toggle">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="checklist-group">
+            <h3 class="checklist-title">
+              <i data-lucide="package"></i>
+              Recolección de Elementos
+            </h3>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Recolección de blancos usados</div>
+                <div class="checklist-description">
+                  Retirar sábanas, fundas, cobijas y llevar al área de lavandería
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Recoger toallas usadas</div>
+                <div class="checklist-description">
+                  Retirar todas las toallas del baño y llevar a lavandería
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Vaciar cestos de basura</div>
+                <div class="checklist-description">
+                  Recoger y desechar toda la basura de la habitación y baño
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Recoger objetos olvidados</div>
+                <div class="checklist-description">
+                  Revisar y recoger cualquier objeto personal dejado por huéspedes
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="notes-area">
+            <label for="collection-notes">Observaciones de Recolección</label>
+            <textarea id="collection-notes" placeholder="Registra objetos encontrados, estado de la ropa de cama, etc..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 3: Limpieza del baño -->
+      <div class="process-section">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-title">
+            <div class="section-number">3</div>
+            <i data-lucide="droplets"></i>
+            Limpieza del Baño
+          </div>
+          <div class="section-toggle">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="checklist-group">
+            <h3 class="checklist-title">
+              <i data-lucide="bath"></i>
+              Sanitarios y Área de Baño
+            </h3>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Limpiar y desinfectar inodoro</div>
+                <div class="checklist-description">
+                  Aplicar desinfectante dentro y fuera, limpiar asiento y base
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Limpiar regadera/tina</div>
+                <div class="checklist-description">
+                  Aplicar limpiador, tallar y enjuagar completamente
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Limpiar lavabo y espejo</div>
+                <div class="checklist-description">
+                  Limpiar lavabo, grifos y pulir espejo sin rayones
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Trapear piso del baño</div>
+                <div class="checklist-description">
+                  Barrer, trapear con desinfectante y secar completamente
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Reabastecer amenidades del baño (Productos de tocador)</div>
+                <div class="checklist-description">
+                  Colocar papel higiénico, jabón, champú y otros elementos
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="photo-section">
+            <h3 class="photo-section-title">
+              <i data-lucide="camera"></i>
+              Evidencia Fotográfica - Baño Limpio
+            </h3>
+            <div class="photo-upload">
+              <div class="photo-upload-item" onclick="document.getElementById('photo-bano-1').click()">
+                <div class="photo-upload-label">Baño terminado</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-bano-1" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+              
+              <div class="photo-upload-item" onclick="document.getElementById('photo-bano-2').click()">
+                <div class="photo-upload-label">Amenidades (Productos de tocador) colocadas</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-bano-2" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 4: Limpieza de superficies -->
+      <div class="process-section">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-title">
+            <div class="section-number">4</div>
+            <i data-lucide="spray-can"></i>
+            Limpieza de Superficies
+          </div>
+          <div class="section-toggle">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="checklist-group">
+            <h3 class="checklist-title">
+              <i data-lucide="square"></i>
+              Muebles y Superficies
+            </h3>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Limpiar escritorio/mesa</div>
+                <div class="checklist-description">
+                  Desinfectar superficie, silla y elementos de la mesa
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Limpiar televisor y controles</div>
+                <div class="checklist-description">
+                  Limpiar pantalla, desinfectar control remoto y cables
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Limpiar lámparas y interruptores</div>
+                <div class="checklist-description">
+                  Desempolvar lámparas y desinfectar todos los interruptores
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Limpiar ventanas y espejos</div>
+                <div class="checklist-description">
+                  Limpiar cristales por ambos lados y pulir espejos
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 5: Preparación de cama -->
+      <div class="process-section">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-title">
+            <div class="section-number">5</div>
+            <i data-lucide="bed"></i>
+            Preparación de la Cama
+          </div>
+          <div class="section-toggle">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="checklist-group">
+            <h3 class="checklist-title">
+              <i data-lucide="sheets"></i>
+              Ropa de Cama Limpia
+            </h3>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Colocar sábana bajera</div>
+                <div class="checklist-description">
+                  Instalar sábana bajera bien estirada sin arrugas
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Colocar sábana superior</div>
+                <div class="checklist-description">
+                  Extender sábana superior con doblez profesional
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Colocar cobijas/colcha</div>
+                <div class="checklist-description">
+                  Extender cobijas o colcha de manera uniforme
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Colocar almohadas con fundas limpias</div>
+                <div class="checklist-description">
+                  Colocar fundas limpias y acomodar almohadas correctamente
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="photo-section">
+            <h3 class="photo-section-title">
+              <i data-lucide="camera"></i>
+              Evidencia Fotográfica - Cama Preparada
+            </h3>
+            <div class="photo-upload">
+              <div class="photo-upload-item" onclick="document.getElementById('photo-cama-1').click()">
+                <div class="photo-upload-label">Cama terminada</div>
+                <div class="photo-upload-content">
+                  <i data-lucide="camera" class="photo-upload-icon"></i>
+                  <span class="photo-upload-text">Tomar foto</span>
+                </div>
+                <input type="file" id="photo-cama-1" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 6: Limpieza de pisos -->
+      <div class="process-section">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-title">
+            <div class="section-number">6</div>
+            <i data-lucide="move"></i>
+            Limpieza de Pisos
+          </div>
+          <div class="section-toggle">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="checklist-group">
+            <h3 class="checklist-title">
+              <i data-lucide="grid-3x3"></i>
+              Pisos y Alfombras
+            </h3>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Aspirar alfombras y tapetes</div>
+                <div class="checklist-description">
+                  Aspirar completamente alfombras, prestando atención a las esquinas
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Barrer áreas con piso duro</div>
+                <div class="checklist-description">
+                  Barrer completamente áreas de piso duro, incluyendo debajo de muebles
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Trapear con desinfectante</div>
+                <div class="checklist-description">
+                  Trapear todos los pisos duros con solución desinfectante
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 7: Reabastecimiento de amenidades -->
+      <div class="process-section">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-title">
+            <div class="section-number">7</div>
+            <i data-lucide="package-plus"></i>
+            Reabastecimiento de Amenidades
+          </div>
+          <div class="section-toggle">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="checklist-group">
+            <h3 class="checklist-title">
+              <i data-lucide="gift"></i>
+              Amenidades y Suministros
+            </h3>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Colocar toallas limpias en baño</div>
+                <div class="checklist-description">
+                  Instalar toallas de baño, manos y pies en sus lugares designados
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Colocar agua embotellada</div>
+                <div class="checklist-description">
+                  Colocar botellas de agua según estándares del establecimiento
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Verificar material de papelería</div>
+                <div class="checklist-description">
+                  Revisar y reponer block de notas, bolígrafos y material informativo
+                </div>
+              </div>
+            </div>
+            
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <div class="checklist-checkbox"></div>
+              <div class="checklist-content">
+                <div class="checklist-text">Colocar bolsas de basura nuevas</div>
+                <div class="checklist-description">
+                  Instalar bolsas nuevas en todos los cestos de basura
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="materials-section">
+            <h3 class="materials-title">
+              <i data-lucide="package"></i>
+              Inventario de Amenidades Colocadas
+            </h3>
+            <div class="materials-grid">
+              <div class="material-field">
+                <label for="towel-count">Número de Toallas</label>
+                <input type="number" id="towel-count" placeholder="0" min="0">
+              </div>
+              <div class="material-field">
+                <label for="water-bottles">Botellas de Agua</label>
+                <input type="number" id="water-bottles" placeholder="0" min="0">
+              </div>
+              <div class="material-field">
+                <label for="other-amenities">Otras Amenidades</label>
+                <textarea id="other-amenities" placeholder="Lista otras amenidades colocadas..."></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+<!-- Paso 8: Inspección final -->
+<div class="process-section">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="section-title">
+      <div class="section-number">8</div>
+      <i data-lucide="search-check"></i>
+      Inspección Final
+    </div>
+    <div class="section-toggle">
+      <i data-lucide="chevron-down"></i>
+    </div>
+  </div>
+  <div class="section-content">
+    <div class="checklist-group">
+      <h3 class="checklist-title">
+        <i data-lucide="check-circle-2"></i>
+        Verificación de Calidad
+      </h3>
+      
+      <div class="checklist-item" onclick="toggleChecklist(this)">
+        <div class="checklist-checkbox"></div>
+        <div class="checklist-content">
+          <div class="checklist-text">Verificar limpieza general de la habitación</div>
+          <div class="checklist-description">
+            Revisar que todas las superficies estén limpias y libres de polvo
+          </div>
+        </div>
+      </div>
+      
+      <div class="checklist-item" onclick="toggleChecklist(this)">
+        <div class="checklist-checkbox"></div>
+        <div class="checklist-content">
+          <div class="checklist-text">Confirmar estado del baño</div>
+          <div class="checklist-description">
+            Verificar que el baño esté completamente limpio y con amenidades
+          </div>
+        </div>
+      </div>
+      
+      <div class="checklist-item" onclick="toggleChecklist(this)">
+        <div class="checklist-checkbox"></div>
+        <div class="checklist-content">
+          <div class="checklist-text">Revisar cama y ropa de cama</div>
+          <div class="checklist-description">
+            Confirmar que la cama esté bien hecha con ropa limpia
+          </div>
+        </div>
+      </div>
+      
+      <div class="checklist-item" onclick="toggleChecklist(this)">
+        <div class="checklist-checkbox"></div>
+        <div class="checklist-content">
+          <div class="checklist-text">Verificar funcionamiento de equipos</div>
+          <div class="checklist-description">
+            Probar que TV, aire acondicionado, luces y otros equipos funcionen
+          </div>
+        </div>
+      </div>
+      
+      <div class="checklist-item" onclick="toggleChecklist(this)">
+        <div class="checklist-checkbox"></div>
+        <div class="checklist-content">
+          <div class="checklist-text">Confirmar orden y presentación</div>
+          <div class="checklist-description">
+            Verificar que todo esté en su lugar y la habitación tenga presentación profesional
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="final-status">
+      <h3 class="status-title">
+        <i data-lucide="clipboard-check"></i>
+        Estado Final de la Habitación
+      </h3>
+      <div class="status-grid">
+        <div class="status-field">
+          <label for="final-status">Estado General</label>
+          <select id="final-status">
+            <option value="">Seleccionar estado</option>
+            <option value="excelente">Excelente</option>
+            <option value="bueno">Bueno</option>
+            <option value="regular">Regular</option>
+            <option value="requiere-atencion">Requiere Atención</option>
+          </select>
+        </div>
+        <div class="status-field">
+          <label for="room-ready">Habitación Lista</label>
+          <select id="room-ready">
+            <option value="">Seleccionar</option>
+            <option value="si">Sí, lista para huéspedes</option>
+            <option value="no">No, requiere trabajo adicional</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="photo-section">
+      <h3 class="photo-section-title">
+        <i data-lucide="camera"></i>
+        Evidencia Fotográfica - Habitación Terminada
+      </h3>
+      <div class="photo-upload">
+        <div class="photo-upload-item" onclick="document.getElementById('photo-final-1').click()">
+          <div class="photo-upload-label">Vista general de la habitación (Limpia)</div>
+          <div class="photo-upload-content">
+            <i data-lucide="camera" class="photo-upload-icon"></i>
+            <span class="photo-upload-text">Tomar foto</span>
+          </div>
+          <input type="file" id="photo-final-1" accept="image/*" style="display: none;" onchange="previewImage(this, this.parentElement)">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <!-- Sección de reporte final -->
+      <div class="process-section">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-title">
+            <div class="section-number">9</div>
+            <i data-lucide="file-text"></i>
+            Registro del Servicio
+          </div>
+          <div class="section-toggle">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="report-section">
+            <h3 class="report-title">
+              <i data-lucide="clipboard-list"></i>
+              Observaciones Generales del Servicio
+            </h3>
+            <div class="notes-area">
+              <label for="service-observations">Observaciones del Personal</label>
+              <textarea id="service-observations" placeholder="Describe el estado general del equipo, problemas encontrados, recomendaciones para el cliente..."></textarea>
+            </div>
+
+          <div class="completion-info">
+            <h3 class="completion-title">
+              <i data-lucide="clock"></i>
+              Información de Finalización
+            </h3>
+            <div class="completion-grid">
+              <div class="completion-field">
+                <label for="end-time">Hora de Finalización</label>
+                <input type="time" id="end-time">
+              </div>
+              <div class="completion-field">
+                <label for="service-duration">Duración Total</label>
+                <input type="text" id="service-duration" placeholder="Ej: 2 horas" readonly>
+              </div>
+              <div class="completion-field">
+                <label for="technician-name">Nombre del Personal</label>
+                <input type="text" id="technician-name" placeholder="Nombre completo del Personal">
+              </div>
+            </div>
+          </div>
+
+          <div class="signature-section">
+            <h3 class="signature-title">
+              <i data-lucide="pen-tool"></i>
+              Firma del Cliente
+            </h3>
+            <div class="signature-area">
+              <canvas id="signature-canvas" width="400" height="200"></canvas>
+              <div class="signature-controls">
+                <button type="button" onclick="clearSignature()" class="btn-secondary">
+                  <i data-lucide="eraser"></i>
+                  Limpiar Firma
+                </button>
+              </div>
+            </div>
+            <div class="client-signature-info">
+              <div class="signature-field">
+                <label for="client-signature-name">Nombre del Cliente</label>
+                <input type="text" id="client-signature-name" placeholder="Nombre de quien recibe el servicio">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+          <!-- Botones de acción -->
+      <div class="action-buttons">
+        <button type="button" class="btn-secondary" onclick="saveAsDraft()">
+          <i data-lucide="save"></i>
+          Guardar Borrador
+        </button>
+        <button type="button" class="btn-primary" onclick="generateReport()">
+          <i data-lucide="file-check"></i>
+          Generar Reporte Final
+        </button>
+        <button type="button" class="btn-success" onclick="completeService()">
+          <i data-lucide="check-circle"></i>
+          Completar Servicio
+        </button>
+      </div>
+  </main>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="../js/scriptPlantilla.js"></script>
+  <script src="../js/scriptPdf.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</body>
+</html>

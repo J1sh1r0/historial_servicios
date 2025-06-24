@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Reportes por Habitación</title>
+    <link rel="stylesheet" href="../css/style.css?v=1.0.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="main">
+        <div class="main-header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: var(--space-4);">
+                    <i class="fas fa-history" style="color: var(--primary-600); font-size: var(--font-size-2xl);"></i>
+                    <div>
+                        <h1 class="main-title">Historial de Reportes</h1>
+                        <p class="main-subtitle">Habitación seleccionada: <strong>___</strong></p>
+                    </div>
+                </div>
+                <button class="action-btn" style="width: auto; height: auto; padding: var(--space-3) var(--space-6); background: var(--gray-600); color: white; border-radius: var(--radius-lg); font-weight: 500;">
+                    <i class="fas fa-arrow-left" style="margin-right: var(--space-2);"></i>
+                    Regresar
+                </button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="welcome-card">
+                <h2 style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-6);">
+                    <i class="fas fa-clipboard-list" style="color: var(--primary-600);"></i>
+                    Reportes de Servicio
+                </h2>
+                
+                <!-- Reports Table -->
+                <div class="reports-table-container">
+                    <table class="reports-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Fecha del Servicio</th>
+                                <th>Nombre del Técnico</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reports-tbody">
+                            <!-- Empty state -->
+                            <tr class="empty-state">
+                                <td colspan="4">
+                                    <div class="empty-state-content">
+                                        <div class="empty-state-icon">📋</div>
+                                        <h3>No hay reportes registrados</h3>
+                                        <p>No se han generado reportes para esta habitación.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const habitacion = urlParams.get("habitacion");
+
+    // Mostrar número de habitación
+    document.querySelector(".main-subtitle strong").textContent = habitacion ?? "___";
+
+    if (!habitacion) return;
+
+    try {
+      const response = await fetch(`../includes/obtener_historial.php?habitacion=${habitacion}`);
+      const data = await response.json();
+
+      const tbody = document.getElementById("reports-tbody");
+      tbody.innerHTML = "";
+
+      if (data.length === 0) {
+        tbody.innerHTML = `
+          <tr class="empty-state">
+            <td colspan="4">
+              <div class="empty-state-content">
+                <div class="empty-state-icon">📋</div>
+                <h3>No hay reportes registrados</h3>
+                <p>No se han generado reportes para esta habitación.</p>
+              </div>
+            </td>
+          </tr>`;
+        return;
+      }
+
+      data.forEach((reporte, index) => {
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${reporte.fecha_servicio}</td>
+          <td>${reporte.nombre_cliente}</td>
+          <td><a href="../includes/descargar_pdf.php?archivo=${reporte.nombre_archivo}" target="_blank">Ver PDF</a></td>
+        `;
+        tbody.appendChild(fila);
+      });
+
+    } catch (error) {
+      console.error("Error al cargar reportes:", error);
+    }
+  });
+</script>
+
+</body>
+</html>
