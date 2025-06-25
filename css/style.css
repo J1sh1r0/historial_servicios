@@ -1011,7 +1011,436 @@ body.login-page::before {
   }
 }
 
-/* CSS adicional para la tabla de reportes */
+
+
+
+/* User Controls */
+.user-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--gray-200);
+}
+
+.user-controls-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--gray-600);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.user-controls-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.records-select {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  background: white;
+  color: var(--gray-700);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.records-select:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.search-input {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  background: white;
+  color: var(--gray-700);
+  font-size: var(--font-size-sm);
+  width: 250px;
+  transition: all var(--transition-base);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  width: 300px;
+}
+
+.search-input::placeholder {
+  color: var(--gray-400);
+}
+
+/* Users Table */
+.users-table-container {
+  background: white;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+  margin-bottom: var(--space-6);
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users-table thead {
+  background: var(--gray-50);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.users-table th {
+  padding: var(--space-4) var(--space-6);
+  text-align: left;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--gray-700);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.users-table tbody tr {
+  border-bottom: 1px solid var(--gray-200);
+  transition: background-color var(--transition-base);
+}
+
+.users-table tbody tr:hover {
+  background: var(--gray-50);
+}
+
+.users-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.users-table td {
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--font-size-sm);
+  color: var(--gray-700);
+  vertical-align: middle;
+}
+
+/* User Info Cell */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--primary-600);
+  font-size: var(--font-size-sm);
+}
+
+.user-details h4 {
+  font-weight: 500;
+  color: var(--gray-900);
+  margin: 0;
+  font-size: var(--font-size-sm);
+}
+
+.user-details p {
+  color: var(--gray-500);
+  margin: 0;
+  font-size: 0.75rem;
+}
+
+/* Status Badge */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-lg);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-badge.active {
+  background: #dcfce7;
+  color: var(--success-500);
+}
+
+.status-badge.inactive {
+  background: #fee2e2;
+  color: var(--error-500);
+}
+
+.status-badge.pending {
+  background: #fef3c7;
+  color: var(--warning-500);
+}
+
+/* User Type Badge */
+.type-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.type-badge.admin {
+  background: var(--primary-100);
+  color: var(--primary-700);
+}
+
+.type-badge.user {
+  background: var(--gray-100);
+  color: var(--gray-700);
+}
+
+.type-badge.moderator {
+  background: #ddd6fe;
+  color: #7c3aed;
+}
+
+/* Permissions List */
+.permissions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  max-width: 200px;
+}
+
+.permission-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-2);
+  background: var(--gray-100);
+  color: var(--gray-600);
+  border-radius: var(--radius-sm);
+  font-size: 0.6875rem;
+  font-weight: 500;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  font-size: var(--font-size-sm);
+}
+
+.action-btn.edit {
+  background: var(--primary-100);
+  color: var(--primary-600);
+}
+
+.action-btn.edit:hover {
+  background: var(--primary-200);
+  transform: translateY(-1px);
+}
+
+.action-btn.delete {
+  background: #fee2e2;
+  color: var(--error-500);
+}
+
+.action-btn.delete:hover {
+  background: #fecaca;
+  transform: translateY(-1px);
+}
+
+.action-btn.permissions {
+  background: #ddd6fe;
+  color: #7c3aed;
+}
+
+.action-btn.permissions:hover {
+  background: #c4b5fd;
+  transform: translateY(-1px);
+}
+
+/* Empty State */
+.empty-state {
+  background: transparent !important;
+}
+
+.empty-state td {
+  padding: var(--space-16) var(--space-8);
+  text-align: center;
+}
+
+.empty-state-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  opacity: 0.5;
+}
+
+.empty-state-content h3 {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--gray-700);
+  margin: 0;
+}
+
+.empty-state-content p {
+  color: var(--gray-500);
+  margin: 0;
+  font-size: var(--font-size-sm);
+}
+
+/* Pagination */
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: var(--space-4) var(--space-6);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--gray-200);
+}
+
+.pagination-info {
+  color: var(--gray-600);
+  font-size: var(--font-size-sm);
+}
+
+.pagination {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.page-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--gray-300);
+  background: white;
+  color: var(--gray-600);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.page-btn:hover:not(:disabled) {
+  border-color: var(--primary-500);
+  color: var(--primary-600);
+  transform: translateY(-1px);
+}
+
+.page-btn.active {
+  background: var(--primary-500);
+  border-color: var(--primary-500);
+  color: white;
+}
+
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .user-controls {
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: stretch;
+  }
+
+  .user-controls-left,
+  .user-controls-right {
+    justify-content: center;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+
+  .search-input:focus {
+    width: 100%;
+  }
+
+  .users-table-container {
+    overflow-x: auto;
+  }
+
+  .users-table {
+    min-width: 800px;
+  }
+
+  .permissions-list {
+    max-width: 150px;
+  }
+
+  .pagination-container {
+    flex-direction: column;
+    gap: var(--space-3);
+    text-align: center;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .users-table {
+    min-width: 600px;
+  }
+
+  .users-table th,
+  .users-table td {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .permissions-list {
+    max-width: 120px;
+  }
+
+  .permission-tag {
+    font-size: 0.625rem;
+  }
+}
+
+
+  /* CSS adicional para la tabla de reportes */
         .main-subtitle {
             color: var(--gray-600);
             font-size: var(--font-size-sm);

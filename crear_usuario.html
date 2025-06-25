@@ -1,0 +1,19 @@
+<form action="crear_usuario.php" method="POST">
+  <input type="text" name="nombre" placeholder="Nombre completo" required><br>
+  <input type="email" name="correo" placeholder="Correo" required><br>
+  <input type="text" name="telefono" placeholder="Teléfono"><br>
+  <input type="password" name="password" placeholder="Contraseña" required><br>
+
+  <select name="rol" required>
+    <option value="">Selecciona un rol</option>
+    <option value="Administrador">Administrador</option>
+    <option value="Empleado">Empleado</option>
+  </select><br>
+
+  <label>Permisos (plantillas):</label><br>
+  <input type="checkbox" name="plantillas[]" value="minisplit"> Minisplit<br>
+  <input type="checkbox" name="plantillas[]" value="habitaciones"> Habitaciones<br>
+  <input type="checkbox" name="plantillas[]" value="otros"> Otros<br>
+
+  <button type="submit">Crear Usuario</button>
+</form>

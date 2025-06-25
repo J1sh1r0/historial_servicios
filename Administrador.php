@@ -15,6 +15,8 @@ header("Pragma: no-cache");*/
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard Mantenimiento Minisplit</title>
@@ -111,11 +113,10 @@ header("Pragma: no-cache");*/
           <i data-lucide="file-text"></i>
           Reportes
         </div>
-        
-        <div class="menu-item" role="button" tabindex="0">
-          <i data-lucide="users"></i>
-          Usuarios
-        </div>
+        <a href="view/GestionUsuario.html" target="_blank" class="menu-item" role="button" tabindex="0">
+  <i data-lucide="users"></i> Usuarios
+</a>
+
         
         <div class="menu-item" role="button" tabindex="0">
           <i data-lucide="settings"></i>

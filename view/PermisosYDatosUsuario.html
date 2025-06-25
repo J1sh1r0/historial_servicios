@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Permisos y Datos</title>
+    <link rel="stylesheet" href="../css/style.css?v=1.0.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="main">
+        <div class="main-header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: var(--space-4);">
+                    <i class="fas fa-shield-alt" style="color: var(--primary-600); font-size: var(--font-size-2xl);"></i>
+                    <div>
+                        <h1 class="main-title">Editar Permisos y Datos de usuario</h1>
+                    </div>
+                </div>
+                <button class="action-btn" style="width: auto; height: auto; padding: var(--space-3) var(--space-6); background: var(--gray-600); color: white; border-radius: var(--radius-lg); font-weight: 500;">
+                    <i class="fas fa-arrow-left" style="margin-right: var(--space-2);"></i>
+                    Regresar
+                </button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Información de Usuario -->
+            <div class="welcome-card">
+                <h2 style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-6);">
+                    <i class="fas fa-file-alt" style="color: var(--primary-600);"></i>
+                    Información del Usuario
+                </h2>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); margin-bottom: var(--space-6);">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-tag" style="margin-right: var(--space-2);"></i>
+                            Usuario
+                        </label>
+                        <div class="form-input-container">
+                            <input type="text" id="usuario-nombre" class="form-input" value="Mantenimiento General Minisplit" style="padding-left: var(--space-4);">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-envelope" style="margin-right: var(--space-2);"></i>
+                            Correo Electrónico
+                        </label>
+                        <div class="form-input-container">
+                            <input type="email" id="usuario-correo" class="form-input" value="tecnico@empresa.com" style="padding-left: var(--space-4);">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6);">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-lock" style="margin-right: var(--space-2);"></i>
+                            Nueva Contraseña (opcional)
+                        </label>
+                        <div class="form-input-container">
+                            <input type="password" class="form-input" placeholder="Dejar vacío para no cambiar" style="padding-left: var(--space-4);">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-lock" style="margin-right: var(--space-2);"></i>
+                            Confirmar Nueva Contraseña
+                        </label>
+                        <div class="form-input-container">
+                            <input type="password" class="form-input" placeholder="Confirmar contraseña" style="padding-left: var(--space-4);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           <!-- Permisos de Plantilla -->
+<div class="welcome-card">
+  <form method="POST" action="../includes/actualizar_plantillas.php" id="form-permisos">
+    <input type="hidden" name="usuario_id" id="usuario-id">
+
+    <h2 style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-6); color: var(--primary-600);">
+      <i class="fas fa-key"></i>
+      Permisos de Usuario
+    </h2>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-6);">
+                    <!-- Permisos de Equipos -->
+<div class="permission-section">
+  <h3 style="font-size: var(--font-size-lg); font-weight: 600; color: var(--gray-700); margin-bottom: var(--space-4); display: flex; align-items: center; gap: var(--space-2);">
+    <i class="fas fa-file-alt" style="color: var(--success-500);"></i>
+    Plantillas
+  </h3>
+
+  <!-- Minisplit -->
+  <div class="permission-item">
+    <label class="permission-toggle">
+      <input 
+        type="checkbox" 
+        class="permission-checkbox" 
+        name="plantillas[]" 
+        value="minisplit" 
+        id="minisplit"
+      >
+      <span class="permission-slider"></span>
+    </label>
+    <div class="permission-info">
+      <span class="permission-name">Minisplit</span>
+      <span class="permission-desc">Mantenimiento General</span>
+    </div>
+  </div>
+
+  <!-- Habitaciones -->
+  <div class="permission-item">
+    <label class="permission-toggle">
+      <input 
+        type="checkbox" 
+        class="permission-checkbox" 
+        name="plantillas[]" 
+        value="habitaciones" 
+        id="habitaciones"
+        checked
+      >
+      <span class="permission-slider"></span>
+    </label>
+    <div class="permission-info">
+      <span class="permission-name">Habitaciones</span>
+      <span class="permission-desc">Limpieza</span>
+    </div>
+  </div>
+
+  <!-- Cámaras -->
+  <div class="permission-item">
+    <label class="permission-toggle">
+      <input 
+        type="checkbox" 
+        class="permission-checkbox" 
+        name="plantillas[]" 
+        value="camaras" 
+        id="camaras"
+      >
+      <span class="permission-slider"></span>
+    </label>
+    <div class="permission-info">
+      <span class="permission-name">Cámaras</span>
+      <span class="permission-desc">Videovigilancia</span>
+    </div>
+  </div>
+
+  <!-- Electricidad -->
+  <div class="permission-item">
+    <label class="permission-toggle">
+      <input 
+        type="checkbox" 
+        class="permission-checkbox" 
+        name="plantillas[]" 
+        value="electricidad" 
+        id="electricidad"
+      >
+      <span class="permission-slider"></span>
+    </label>
+    <div class="permission-info">
+      <span class="permission-name">Electricidad</span>
+      <span class="permission-desc">Instalación y revisión</span>
+    </div>
+  </div>
+
+  <!-- Plomería -->
+  <div class="permission-item">
+    <label class="permission-toggle">
+      <input 
+        type="checkbox" 
+        class="permission-checkbox" 
+        name="plantillas[]" 
+        value="plomeria" 
+        id="plomeria"
+      >
+      <span class="permission-slider"></span>
+    </label>
+    <div class="permission-info">
+      <span class="permission-name">Plomería</span>
+      <span class="permission-desc">Reparaciones y fugas</span>
+    </div>
+  </div>
+
+  <!-- Fumigación -->
+  <div class="permission-item">
+    <label class="permission-toggle">
+      <input 
+        type="checkbox" 
+        class="permission-checkbox" 
+        name="plantillas[]" 
+        value="fumigacion" 
+        id="fumigacion"
+      >
+      <span class="permission-slider"></span>
+    </label>
+    <div class="permission-info">
+      <span class="permission-name">Fumigación</span>
+      <span class="permission-desc">Control de plagas</span>
+    </div>
+  </div>
+
+  <!-- Jardinería -->
+  <div class="permission-item">
+    <label class="permission-toggle">
+      <input 
+        type="checkbox" 
+        class="permission-checkbox" 
+        name="plantillas[]" 
+        value="jardineria" 
+        id="jardineria"
+      >
+      <span class="permission-slider"></span>
+    </label>
+    <div class="permission-info">
+      <span class="permission-name">Jardinería</span>
+      <span class="permission-desc">Áreas verdes</span>
+    </div>
+  </div>
+
+    <!-- Historial -->
+<div class="permission-item">
+  <label class="permission-toggle">
+    <input
+      type="checkbox"
+      class="permission-checkbox"
+      name="plantillas[]"
+      value="historial"
+      id="historial"
+    />
+    <span class="permission-slider"></span>
+  </label>
+  <div class="permission-info">
+    <span class="permission-name">Historial</span>
+    <span class="permission-desc">Registro de mantenimientos por habitación</span>
+  </div>
+</div>
+
+  <!-- Otros -->
+  <div class="permission-item">
+    <label class="permission-toggle">
+      <input 
+        type="checkbox" 
+        class="permission-checkbox" 
+        name="plantillas[]" 
+        value="otros" 
+        id="otros"
+      >
+      <span class="permission-slider"></span>
+    </label>
+    <div class="permission-info">
+      <span class="permission-name">Otros</span>
+      <span class="permission-desc">Servicios adicionales</span>
+    </div>
+  </div>
+
+
+    <div style="margin-top: var(--space-5);">
+      <button class="login-button" type="submit" style="width: auto; padding: var(--space-4) var(--space-8); display: flex; align-items: center; gap: 8px;">
+        <i class="fas fa-save"></i>
+        Guardar Cambios
+      </button>
+    </div>
+  </form>
+</div>
+
+    <style>
+        /* Custom styles for permission toggles */
+        .permission-section {
+            background: var(--gray-50);
+            padding: var(--space-6);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
+        }
+
+        .permission-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-4);
+            background: white;
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-3);
+            border: 1px solid var(--gray-200);
+            transition: all var(--transition-base);
+        }
+
+        .permission-item:hover {
+            box-shadow: var(--shadow-sm);
+            transform: translateY(-1px);
+        }
+
+        .permission-toggle {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .permission-checkbox {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .permission-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--gray-300);
+            transition: var(--transition-base);
+            border-radius: 24px;
+        }
+
+        .permission-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: var(--transition-base);
+            border-radius: 50%;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .permission-checkbox:checked + .permission-slider {
+            background-color: var(--primary-500);
+        }
+
+        .permission-checkbox:checked + .permission-slider:before {
+            transform: translateX(26px);
+        }
+
+        .permission-info {
+            flex: 1;
+        }
+
+        .permission-name {
+            display: block;
+            font-weight: 500;
+            color: var(--gray-900);
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--space-1);
+        }
+
+        .permission-desc {
+            display: block;
+            color: var(--gray-500);
+            font-size: 0.75rem;
+            line-height: 1.4;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .main-header > div {
+                flex-direction: column !important;
+                gap: var(--space-4) !important;
+                align-items: flex-start !important;
+            }
+
+            .main-header .action-btn {
+                align-self: flex-end;
+            }
+        }
+    </style>
+
+    <script>
+        // Toggle functionality for permissions
+        document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const item = this.closest('.permission-item');
+                if (this.checked) {
+                    item.style.borderColor = 'var(--primary-500)';
+                    item.style.backgroundColor = 'var(--primary-50)';
+                } else {
+                    item.style.borderColor = 'var(--gray-200)';
+                    item.style.backgroundColor = 'white';
+                }
+            });
+        });
+
+        // Initialize checked items
+        document.querySelectorAll('.permission-checkbox:checked').forEach(checkbox => {
+            const item = checkbox.closest('.permission-item');
+            item.style.borderColor = 'var(--primary-500)';
+            item.style.backgroundColor = 'var(--primary-50)';
+        });
+
+        // Save button functionality
+        document.querySelector('.login-button').addEventListener('click', function() {
+            this.classList.add('loading');
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+            
+            setTimeout(() => {
+                this.classList.remove('loading');
+                this.innerHTML = '<i class="fas fa-check"></i> Guardado';
+                this.style.background = 'linear-gradient(135deg, var(--success-500), #059669)';
+                
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-save"></i> Guardar Cambios';
+                    this.style.background = '';
+                }, 2000);
+            }, 1500);
+        });
+    </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('id');
+
+    if (userId) {
+        fetch(`../includes/obtener_usuario.php?id=${userId}`)
+            .then(response => response.json())
+            .then(data => llenarFormulario(data))
+            .catch(error => console.error('Error al obtener usuario:', error));
+    }
+});
+
+function llenarFormulario(usuario) {
+  document.getElementById('usuario-nombre').value = usuario.nombre_completo;
+  document.getElementById('usuario-correo').value = usuario.correo;
+  document.getElementById('usuario-id').value = usuario.id; // <-- nuevo
+
+  const plantillas = usuario.plantillas ? usuario.plantillas.split(',') : [];
+  plantillas.forEach(p => {
+    const checkbox = document.querySelector(`input[type="checkbox"][value="${p}"]`);
+    if (checkbox) checkbox.checked = true;
+  });
+}
+
+
+</script>
+<script src="../js/atualizarPermisos.js"></script>
+
+</body>
+</html>

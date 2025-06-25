@@ -1,18 +1,18 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-//session_start();
-// Si no hay sesión pero existe la cookie, reactivar sesión
-/*if (!isset($_SESSION["usuario"]) && isset($_COOKIE["usuario_recordado"])) {
+session_start();
+//Si no hay sesión pero existe la cookie, reactivar sesión
+if (!isset($_SESSION["usuario"]) && isset($_COOKIE["usuario_recordado"])) {
     $_SESSION["usuario"] = $_COOKIE["usuario_recordado"];
     header("Location: Administrador.php");
     exit;
-}*/
+}
 
-//if (isset($_SESSION["usuario"])) {
-//    header("Location: Administrador.php");
-//    exit;
-//}
+if (isset($_SESSION["usuario"])) {
+    header("Location: Administrador.php");
+    exit;
+}
 
 require_once 'includes/conexion.php';
 require 'includes/PHPMailer/src/PHPMailer.php';
@@ -117,6 +117,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["usuario"])) {
 
         if (password_verify($contrasena, $usuario["contrasena"])) {
     $_SESSION["usuario"] = $usuario["nombre_completo"];
+        $_SESSION["rol"] = $usuario["rol"];
+    $_SESSION["plantillas"] = $usuario["plantillas"];
+    $_SESSION["correo"] = $usuario["correo"];
+    $_SESSION["id"] = $usuario["id"];
+
 
     // Si se marcó el checkbox de recordarme
     if (isset($_POST["remember"])) {
@@ -144,7 +149,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["usuario"])) {
                 $mail->Body = $mensajeCorreo;
 
                 $mail->send();
-                header("Location: Administrador.php");
+                if ($usuario["rol"] === "Administrador") {
+        header("Location: Administrador.php");
+    } else {
+        header("Location: Cliente.php");
+    }
+    exit();
+
                 exit;
             } catch (Exception $e) {
                 $mensaje = "Inicio exitoso pero no se pudo enviar el correo: {$mail->ErrorInfo}";

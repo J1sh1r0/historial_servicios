@@ -1,8 +1,8 @@
 <?php
-/*session_start();
+session_start();
 session_unset();
 session_destroy();
 setcookie("usuario_recordado", "", time() - 3600, "/"); // 💥 elimina la cookie
 header("Location: index.php");
-exit;*/
+exit;
 ?>

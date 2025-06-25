@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios</title>
+    <link rel="stylesheet" href="../css/style.css?v=1.0.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Main Content -->
+    <main class="main">
+        <header class="main-header">
+            <h1 class="main-title">Gestión de Usuarios</h1>
+            <p class="main-subtitle">Administra usuarios y sus permisos de acceso a plantillas</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Welcome Card -->
+            <div class="welcome-card">
+                <h2>Sistema de Usuarios</h2>
+                <p>Gestiona los usuarios del sistema y controla el acceso a las diferentes categorías de plantillas de servicios.</p>
+            </div>
+            <div class="user-management-container">
+    <!-- User Management Controls -->
+    <div class="user-controls">
+        <div class="user-controls-left">
+            <label for="records-select">Mostrar</label>
+            <select id="records-select" class="records-select">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+            </select>
+            <span>registros</span>
+        </div>
+
+        <div class="user-controls-right">
+            <input type="text" class="search-input" placeholder="Buscar usuario...">
+        </div>
+    </div>
+
+    <!-- Users Table -->
+    <div class="users-table-container">
+        <table class="users-table">
+            <thead>
+                <tr>
+                    <th>USUARIO</th>
+                    <th>TIPO</th>
+                    <th>CORREO</th>
+                    <th>Telefono</th>
+                    <th>PERMISOS</th>
+                    <th>EDITAR</th>
+                </tr>
+            </thead>
+            <tbody id="users-tbody">
+                <!-- Empty state -->
+                <tr class="empty-state">
+                    <td colspan="6">
+                        <div class="empty-state-content">
+                            <div class="empty-state-icon">👥</div>
+                            <h3>No hay usuarios registrados</h3>
+                            <p>No se ha agregado ningún usuario aún.</p>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+             
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <span class="pagination-info">Mostrando registros</span>
+                <div class="pagination">
+                    <button class="page-btn" disabled>‹</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn" disabled>›</button>
+                </div>
+            </div>
+        </div>
+    </main>
+<script src="../js/scriptUsuarios.js"></script>
+
+</body>
+</html>
