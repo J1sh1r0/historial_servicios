@@ -1,63 +1,118 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Historial de Reportes por Habitación</title>
-  <link rel="stylesheet" href="../css/styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Reportes por Habitación</title>
+    <link rel="stylesheet" href="../css/style.css?v=1.0.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        table, th, td {
+            color: #111 !important;
+            background-color: white !important;
+        }
+
+        a {
+            color: blue;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h2>📘 Historial de Reportes</h2>
-    <p>Habitación seleccionada: <span id="numHabitacion"></span></p>
+    <div class="main">
+        <div class="main-header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: var(--space-4);">
+                    <i class="fas fa-history" style="color: var(--primary-600); font-size: var(--font-size-2xl);"></i>
+                    <div>
+                        <h1 class="main-title"> Historial de Reportes</h1>
+                        <p class="main-subtitle">Habitación seleccionada: <strong><span id="numHabitacion">N/A</span></strong></p>
+                    </div>
+                </div>
+                <button class="action-btn" onclick="history.back()" style="width: auto; height: auto; padding: var(--space-3) var(--space-6); background: var(--gray-600); color: white; border-radius: var(--radius-lg); font-weight: 500;">
+                    <i class="fas fa-arrow-left" style="margin-right: var(--space-2);"></i>
+                    Regresar
+                </button>
+            </div>
+        </div>
 
-    <div class="card">
-      <h3>🧾 Reportes de Servicio</h3>
-      <table border="1" cellpadding="10">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Fecha del Servicio</th>
-            <th>Nombre del Técnico</th>
-            <th>Acción</th>
-          </tr>
-        </thead>
-        <tbody id="tablaReportes"></tbody>
-      </table>
+        <div class="main-content">
+            <div class="welcome-card">
+                <h2 style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-6);">
+                    <i class="fas fa-clipboard-list" style="color: var(--primary-600);"></i>
+                     Reportes de Servicio
+                </h2>
+                
+                <!-- Reports Table -->
+                <div class="reports-table-container">
+                    <table class="reports-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Fecha del Servicio</th>
+                                <th>Nombre del Técnico</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaReportes">
+                            <!-- Empty state -->
+                            <tr class="empty-state">
+                                <td colspan="4">
+                                    <div class="empty-state-content">
+                                        <div class="empty-state-icon">📋</div>
+                                        <h3>No hay reportes registrados</h3>
+                                        <p>No se han generado reportes para esta habitación.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <button onclick="history.back()">⬅ Regresar</button>
-  </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const habitacion = params.get('habitacion');
+        document.getElementById('numHabitacion').textContent = habitacion || 'N/A';
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const habitacion = params.get('habitacion');
-    document.getElementById('numHabitacion').textContent = habitacion || 'N/A';
-
-    if (!habitacion) {
-      alert('❌ No se especificó el número de habitación.');
-    } else {
-      fetch(`../php/obtener_historial_habitaciones.php?habitacion=${habitacion}`)
-        .then(res => res.json())
-        .then(data => {
-          const tabla = document.getElementById('tablaReportes');
-          if (data.length === 0) {
-            tabla.innerHTML = '<tr><td colspan="4">Sin registros.</td></tr>';
-          } else {
-            data.forEach((item, index) => {
-              tabla.innerHTML += `
-                <tr>
-                  <td>${index + 1}</td>
-                  <td>${item.fecha_servicio}</td>
-                  <td>${item.nombre_personal}</td>
-                  <td><a href="../${item.ruta_pdf}" target="_blank">Ver PDF</a></td>
-                </tr>`;
-            });
-          }
-        })
-        .catch(err => {
-          console.error('Error al obtener datos:', err);
-        });
-    }
-  </script>
+        if (!habitacion) {
+            alert('❌ No se especificó el número de habitación.');
+        } else {
+            fetch(`../php/obtener_historial_habitaciones.php?habitacion=${habitacion}`)
+                .then(res => res.json())
+                .then(data => {
+                    const tabla = document.getElementById('tablaReportes');
+                    tabla.innerHTML = '';
+                    
+                    if (data.length === 0) {
+                        tabla.innerHTML = `
+                            <tr class="empty-state">
+                                <td colspan="4">
+                                    <div class="empty-state-content">
+                                        <div class="empty-state-icon">📋</div>
+                                        <h3>Sin registros</h3>
+                                        <p>No se han generado reportes para esta habitación.</p>
+                                    </div>
+                                </td>
+                            </tr>`;
+                    } else {
+                        data.forEach((item, index) => {
+                            const fila = document.createElement("tr");
+                            fila.innerHTML = `
+                                <td>${index + 1}</td>
+                                <td>${item.fecha_servicio}</td>
+                                <td>${item.nombre_personal}</td>
+                                <td><a href="../${item.ruta_pdf}" target="_blank">Ver PDF</a></td>
+                            `;
+                            tabla.appendChild(fila);
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.error('Error al obtener datos:', err);
+                });
+        }
+    </script>
 </body>
 </html>
