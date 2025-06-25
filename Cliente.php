@@ -135,19 +135,22 @@ if ($fila = $resultado->fetch_assoc()) {
     <?php endif; ?>
 
 <!-- Menú desplegable: Historial (solo visual) -->
-<li class="has-submenu">
-  <span onclick="toggleSubmenu(this)">
-    <i data-lucide="history"></i> Historial
-  </span>
-  <ul class="submenu">
-    <li onclick="abrirPlantilla('200')">Habitación 200</li>
-    <li onclick="abrirPlantilla('201')">Habitación 201</li>
-    <li onclick="abrirPlantilla('202')">Habitación 202</li>
-    <li onclick="abrirPlantilla('203')">Habitación 203</li>
-    <li onclick="abrirPlantilla('204')">Habitación 204</li>
-    <li onclick="abrirPlantilla('205')">Habitación 205</li>
-  </ul>
-</li>
+<?php if (in_array("historial", $plantillas)): ?>
+  <li class="has-submenu">
+    <span onclick="toggleSubmenu(this)">
+      <i data-lucide="history"></i> Historial
+    </span>
+    <ul class="submenu">
+      <li onclick="abrirPlantilla('200')">Habitación 200</li>
+      <li onclick="abrirPlantilla('201')">Habitación 201</li>
+      <li onclick="abrirPlantilla('202')">Habitación 202</li>
+      <li onclick="abrirPlantilla('203')">Habitación 203</li>
+      <li onclick="abrirPlantilla('204')">Habitación 204</li>
+      <li onclick="abrirPlantilla('205')">Habitación 205</li>
+    </ul>
+  </li>
+<?php endif; ?>
+
     <li><a href="logout.php">Cerrar sesión</a></li>
   </ul>
 </aside>
