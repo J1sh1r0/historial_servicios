@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Historial de Reportes por Habitación</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>📘 Historial de Reportes</h2>
+    <p>Habitación seleccionada: <span id="numHabitacion"></span></p>
+
+    <div class="card">
+      <h3>🧾 Reportes de Servicio</h3>
+      <table border="1" cellpadding="10">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Fecha del Servicio</th>
+            <th>Nombre del Técnico</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody id="tablaReportes"></tbody>
+      </table>
+    </div>
+
+    <button onclick="history.back()">⬅ Regresar</button>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const habitacion = params.get('habitacion');
+    document.getElementById('numHabitacion').textContent = habitacion || 'N/A';
+
+    if (!habitacion) {
+      alert('❌ No se especificó el número de habitación.');
+    } else {
+      fetch(`../php/obtener_historial_habitaciones.php?habitacion=${habitacion}`)
+        .then(res => res.json())
+        .then(data => {
+          const tabla = document.getElementById('tablaReportes');
+          if (data.length === 0) {
+            tabla.innerHTML = '<tr><td colspan="4">Sin registros.</td></tr>';
+          } else {
+            data.forEach((item, index) => {
+              tabla.innerHTML += `
+                <tr>
+                  <td>${index + 1}</td>
+                  <td>${item.fecha_servicio}</td>
+                  <td>${item.nombre_personal}</td>
+                  <td><a href="../${item.ruta_pdf}" target="_blank">Ver PDF</a></td>
+                </tr>`;
+            });
+          }
+        })
+        .catch(err => {
+          console.error('Error al obtener datos:', err);
+        });
+    }
+  </script>
+</body>
+</html>

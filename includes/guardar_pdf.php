@@ -12,7 +12,7 @@ try {
         isset($_POST['nombre_cliente']) &&
         isset($_POST['fecha_servicio']) &&
         isset($_POST['nombre_archivo']) &&
-        isset($_FILES['archivo_pdf'])
+        isset($_FILES['archivo_pdf']) && $_FILES['archivo_pdf']['error'] === 0
     ) {
         $numeroHabitacion = $_POST['numero_habitacion'];
         $nombreCliente = $_POST['nombre_cliente'];

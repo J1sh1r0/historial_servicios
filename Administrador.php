@@ -85,24 +85,49 @@ header("Pragma: no-cache");*/
     Habitaciones
   </div>
   <div id="submenu-habitaciones" class="submenu" role="group" aria-labelledby="habitaciones-label">
-    <div class="menu-item" role="button" tabindex="0">Recámara</div>
+    <div class="menu-item" role="button" id="btnHabitaciones" tabindex="0">Recámara</div>
+
   </div>
 
  <div class="menu-item has-submenu" role="button" tabindex="0"
      onclick="toggleSubmenu('historial')" 
      onkeydown="handleKeyDown(event, 'historial')"
      aria-expanded="false"
-     aria-controls="submenu-historial">
+     aria-controls="submenu-historial"
+     id="historial-label">
   <i data-lucide="history"></i>
-  Historial
-<div id="submenu-historial" class="submenu" role="group" aria-labelledby="historial-label">
-  <div class="menu-item" role="button" tabindex="0" onclick="abrirPlantilla('200')">Habitacion 200</div>
-  <div class="menu-item" role="button" tabindex="0" onclick="abrirPlantilla('201')">Habitacion 201</div>
-  <div class="menu-item" role="button" tabindex="0" onclick="abrirPlantilla('202')">Habitacion 202</div>
-  <div class="menu-item" role="button" tabindex="0" onclick="abrirPlantilla('203')">Habitacion 203</div>
-  <div class="menu-item" role="button" tabindex="0" onclick="abrirPlantilla('204')">Habitacion 204</div>
-  <div class="menu-item" role="button" tabindex="0" onclick="abrirPlantilla('205')">Habitacion 205</div>
+  <span>Historial</span>
 </div>
+
+<div id="submenu-historial" class="submenu hidden" role="group" aria-labelledby="historial-label">
+  <div class="menu-item" role="button" tabindex="0" onclick="abrirPlantilla('200')">Habitación 200</div>
+  <div class="menu-item" role="button" tabindex="0" onclick="abrirPlantilla('201')">Habitación 201</div>
+  <div class="menu-item" role="button" tabindex="0" onclick="abrirPlantilla('202')">Habitación 202</div>
+  <div class="menu-item" role="button" tabindex="0" onclick="abrirPlantilla('203')">Habitación 203</div>
+  <div class="menu-item" role="button" tabindex="0" onclick="abrirPlantilla('204')">Habitación 204</div>
+  <div class="menu-item" role="button" tabindex="0" onclick="abrirPlantilla('205')">Habitación 205</div>
+</div>
+
+<!-- Nuevo grupo de Historial de Habitaciones -->
+<div class="menu-item has-submenu" role="button" tabindex="0"
+     onclick="toggleSubmenu('historialHabitaciones')" 
+     onkeydown="handleKeyDown(event, 'historialHabitaciones')"
+     aria-expanded="false"
+     aria-controls="submenu-historialHabitaciones"
+     id="historialHabitaciones-label">
+  <i data-lucide="bed-double"></i>
+  <span>Historial Habitaciones</span>
+</div>
+
+<div id="submenu-historialHabitaciones" class="submenu hidden" role="group" aria-labelledby="historialHabitaciones-label">
+  <div class="menu-item" role="button" tabindex="0" onclick="verHistorialHabitacion('200')">Habitación 200</div>
+  <div class="menu-item" role="button" tabindex="0" onclick="verHistorialHabitacion('201')">Habitación 201</div>
+  <div class="menu-item" role="button" tabindex="0" onclick="verHistorialHabitacion('202')">Habitación 202</div>
+  <div class="menu-item" role="button" tabindex="0" onclick="verHistorialHabitacion('203')">Habitación 203</div>
+  <div class="menu-item" role="button" tabindex="0" onclick="verHistorialHabitacion('204')">Habitación 204</div>
+  <div class="menu-item" role="button" tabindex="0" onclick="verHistorialHabitacion('205')">Habitación 205</div>
+</div>
+
 
 </section>
 
@@ -159,7 +184,7 @@ header("Pragma: no-cache");*/
   }
 </script>
 <script>
-  window.addEventListener("pageshow", function (event) {
+  /*window.addEventListener("pageshow", function (event) {
     // Si la página viene del caché (navegación hacia atrás)
     if (event.persisted) {
       // Hacemos logout automático
@@ -170,7 +195,11 @@ header("Pragma: no-cache");*/
         window.location.href = 'index.php';
       });
     }
-  });
+  });*/
+  document.getElementById('btnHabitaciones').addEventListener('click', function () {
+  window.location.href = 'view/habitaciones.html';
+});
+
 </script>
 <script>
   function abrirPlantilla(numeroHabitacion) {
@@ -178,7 +207,11 @@ header("Pragma: no-cache");*/
     window.location.href = `view/historial.html?habitacion=${numeroHabitacion}`;
   }
 </script>
-
-
+<script>
+function verHistorialHabitacion(numero) {
+  const url = `view/historial_habitaciones.html?habitacion=${numero}`;
+  window.location.href = url;
+}
+</script>
 </body>
 </html>

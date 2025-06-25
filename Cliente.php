@@ -1,188 +1,331 @@
 <?php
 session_start();
-$nombreUsuario = $_SESSION['usuario']; // nombre_completo del login
-
-include 'includes/conexion.php';
-
-if ($conn->connect_error) {
-    die("Error de conexión: " . $conn->connect_error);
-}
-
-// Consulta usando nombre_completo
-$sql = "SELECT plantillas FROM login WHERE nombre_completo = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $nombreUsuario);
-$stmt->execute();
-$resultado = $stmt->get_result();
-
-$plantillas = [];
-if ($fila = $resultado->fetch_assoc()) {
-    $plantillas = explode(",", strtolower($fila["plantillas"]));
-}
+$plantillas = isset($_SESSION["plantillas"]) ? explode(",", strtolower($_SESSION["plantillas"])) : [];
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Cliente</title>
   <script src="https://unpkg.com/lucide@latest"></script>
-
-
-  <style>
-    body {
-      display: flex;
-      margin: 0;
-      font-family: sans-serif;
-      background-color: #1e1e2f;
-      color: #fff;
-    }
-
-    aside.sidebar {
-      width: 250px;
-      background-color: #111;
-      padding: 20px;
-      height: 100vh;
-    }
-
-    main {
-      flex: 1;
-      padding: 40px;
-    }
-
-    .menu {
-      list-style: none;
-      padding: 0;
-    }
-
-    .menu li {
-      padding: 8px;
-      cursor: pointer;
-      color: #9f82ff;
-    }
-
-    .menu li:hover {
-      background-color: #444;
-    }
-
-    .has-submenu > span {
-      display: inline-block;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .has-submenu.open > span::after {
-      content: " ▾";
-    }
-
-    .has-submenu:not(.open) > span::after {
-      content: " ▸";
-    }
-
-    .submenu {
-      display: none;
-      margin-left: 15px;
-      list-style-type: none;
-      padding-left: 10px;
-      border-left: 2px solid #555;
-    }
-
-    .submenu.open {
-      display: block;
-    }
-
-    .has-submenu.open .submenu {
-      display: block !important;
-    }
-  </style>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
+  <!-- Mobile Menu Toggle -->
+  <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+    <i data-lucide="menu"></i>
+  </button>
 
-<aside class="sidebar">
-  <h2>Bienvenido, <?php echo htmlspecialchars($nombreUsuario); ?></h2>
-  <ul class="menu">
-    <?php if (in_array("minisplit", $plantillas)): ?>
-      <li><a href="view/MantenimientoGeneralMinisplit.html">Minisplit</a></li>
-    <?php endif; ?>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" onclick="closeMobileMenu()"></div>
 
-    <?php if (in_array("habitaciones", $plantillas)): ?>
-      <li><a href="view/habitaciones.html">Habitaciones</a></li>
-    <?php endif; ?>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2 class="sidebar-title">Panel Cliente</h2>
+    </div>
 
-    <?php if (in_array("camaras", $plantillas)): ?>
-      <li><a href="view/camaras.html">Camaras</a></li>
-    <?php endif; ?>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">Usuario</div>
+        <div class="menu-item" style="background: var(--primary-100); color: var(--primary-700); cursor: default;">
+          <i data-lucide="user"></i>
+          <?php echo $_SESSION["usuario"]; ?>
+        </div>
+      </div>
 
-    <?php if (in_array("electricidad", $plantillas)): ?>
-      <li><a href="view/electricidad.html">Electricidad</a></li>
-    <?php endif; ?>
+      <div class="nav-section">
+        <div class="nav-section-title">Servicios</div>
+        
+        <?php if (in_array("minisplit", $plantillas)): ?>
+          <a href="view/MantenimientoGeneralMinisplit.html" class="menu-item">
+            <i data-lucide="air-vent"></i>
+            Minisplit
+          </a>
+        <?php endif; ?>
 
-    <?php if (in_array("plomeria", $plantillas)): ?>
-      <li><a href="view/plomeria.html">Plomería</a></li>
-    <?php endif; ?>
+        <?php if (in_array("habitaciones", $plantillas)): ?>
+          <a href="view/habitaciones.html" class="menu-item">
+            <i data-lucide="bed"></i>
+            Habitaciones
+          </a>
+        <?php endif; ?>
 
-    <?php if (in_array("fumigacion", $plantillas)): ?>
-      <li><a href="view/fumigacion.html">Fumigación</a></li>
-    <?php endif; ?>
+        <?php if (in_array("camara", $plantillas)): ?>
+          <a href="view/camara.html" class="menu-item">
+            <i data-lucide="camera"></i>
+            Cámaras
+          </a>
+        <?php endif; ?>
 
-    <?php if (in_array("jardineria", $plantillas)): ?>
-      <li><a href="view/jardineria.html">Jardinería</a></li>
-    <?php endif; ?>
+        <?php if (in_array("electricidad", $plantillas)): ?>
+          <a href="view/electricidad.html" class="menu-item">
+            <i data-lucide="zap"></i>
+            Electricidad
+          </a>
+        <?php endif; ?>
 
-    <?php if (in_array("otros", $plantillas)): ?>
-      <li><a href="view/otros.html">Otros</a></li>
-    <?php endif; ?>
+        <?php if (in_array("plomeria", $plantillas)): ?>
+          <a href="view/plomeria.html" class="menu-item">
+            <i data-lucide="droplets"></i>
+            Plomería
+          </a>
+        <?php endif; ?>
 
-<!-- Menú desplegable: Historial (solo visual) -->
-<?php if (in_array("historial", $plantillas)): ?>
-  <li class="has-submenu">
-    <span onclick="toggleSubmenu(this)">
-      <i data-lucide="history"></i> Historial
-    </span>
-    <ul class="submenu">
-      <li onclick="abrirPlantilla('200')">Habitación 200</li>
-      <li onclick="abrirPlantilla('201')">Habitación 201</li>
-      <li onclick="abrirPlantilla('202')">Habitación 202</li>
-      <li onclick="abrirPlantilla('203')">Habitación 203</li>
-      <li onclick="abrirPlantilla('204')">Habitación 204</li>
-      <li onclick="abrirPlantilla('205')">Habitación 205</li>
-    </ul>
-  </li>
+        <?php if (in_array("fumigacion", $plantillas)): ?>
+          <a href="view/fumigacion.html" class="menu-item">
+            <i data-lucide="bug"></i>
+            Fumigación
+          </a>
+        <?php endif; ?>
+
+        <?php if (in_array("jardineria", $plantillas)): ?>
+          <a href="view/jardineria.html" class="menu-item">
+            <i data-lucide="flower"></i>
+            Jardinería
+          </a>
+        <?php endif; ?>
+
+        <?php if (in_array("otros", $plantillas)): ?>
+          <a href="view/otros.html" class="menu-item">
+            <i data-lucide="more-horizontal"></i>
+            Otros
+          </a>
+        <?php endif; ?>
+      </div>
+
+      <?php if (in_array("historial", $plantillas)): ?>
+      <div class="nav-section">
+        <div class="nav-section-title">Historial</div>
+        <div class="menu-item has-submenu" onclick="toggleSubmenu('historial')">
+          <i data-lucide="history"></i>
+          Historial
+        </div>
+        <div id="submenu-historial" class="submenu">
+          <div class="menu-item" onclick="abrirPlantilla('200')">
+            <i data-lucide="door-open"></i>
+            Habitación 200
+          </div>
+          <div class="menu-item" onclick="abrirPlantilla('201')">
+            <i data-lucide="door-open"></i>
+            Habitación 201
+          </div>
+          <div class="menu-item" onclick="abrirPlantilla('202')">
+            <i data-lucide="door-open"></i>
+            Habitación 202
+          </div>
+          <div class="menu-item" onclick="abrirPlantilla('203')">
+            <i data-lucide="door-open"></i>
+            Habitación 203
+          </div>
+          <div class="menu-item" onclick="abrirPlantilla('204')">
+            <i data-lucide="door-open"></i>
+            Habitación 204
+          </div>
+          <div class="menu-item" onclick="abrirPlantilla('205')">
+            <i data-lucide="door-open"></i>
+            Habitación 205
+          </div>
+        </div>
+      </div>
+      <?php endif; ?>
+
+      <?php if (in_array("historial_habitaciones", $plantillas)): ?>
+  <div class="nav-section">
+    <div class="nav-section-title">Historial Habitaciones</div>
+    <div class="menu-item has-submenu" onclick="toggleSubmenu('historialHabitaciones')">
+      <i data-lucide="bed-double"></i>
+      Historial
+    </div>
+
+    <div id="submenu-historialHabitaciones" class="submenu">
+      <div class="menu-item" onclick="abrirHistorialHabitacion('200')">
+        <i data-lucide="file-text"></i>
+        Habitación 200
+      </div>
+      <div class="menu-item" onclick="abrirHistorialHabitacion('201')">
+        <i data-lucide="file-text"></i>
+        Habitación 201
+      </div>
+      <div class="menu-item" onclick="abrirHistorialHabitacion('202')">
+        <i data-lucide="file-text"></i>
+        Habitación 202
+      </div>
+      <div class="menu-item" onclick="abrirHistorialHabitacion('203')">
+        <i data-lucide="file-text"></i>
+        Habitación 203
+      </div>
+      <div class="menu-item" onclick="abrirHistorialHabitacion('204')">
+        <i data-lucide="file-text"></i>
+        Habitación 204
+      </div>
+      <div class="menu-item" onclick="abrirHistorialHabitacion('205')">
+        <i data-lucide="file-text"></i>
+        Habitación 205
+      </div>
+    </div>
+  </div>
 <?php endif; ?>
 
-    <li><a href="logout.php">Cerrar sesión</a></li>
-  </ul>
-</aside>
+      </nav>
 
-<main>
-  <h1>Dashboard Cliente</h1>
-  <p>Solo verás las secciones que tengas activadas.</p>
-</main>
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="window.location.href='logout.php'">
+        <i data-lucide="log-out"></i>
+        Cerrar sesión
+      </button>
+    </div>
+  </aside>
 
-<script>
-  lucide.createIcons();
-</script>
-<script>
-  function toggleSubmenu(element) {
-    const parentLi = element.parentElement;
-    parentLi.classList.toggle("open");
-  }
+  <!-- Main Content -->
+  <main class="main">
+    <header class="main-header">
+      <div>
+        <h1 class="main-title">Dashboard Cliente</h1>
+        <p class="main-subtitle">Gestiona tus servicios y consulta el historial de mantenimiento</p>
+      </div>
+    </header>
 
-  lucide.createIcons();
-</script>
-<script>
-  function toggleSubmenu(element) {
-    const parentLi = element.parentElement;
-    parentLi.classList.toggle("open");
-  }
+    <div class="main-content">
+      <!-- Welcome Card -->
+      <div class="welcome-card">
+        <h2>Bienvenido, <?php echo $_SESSION["usuario"]; ?></h2>
+        <p>Accede a las secciones disponibles según tus permisos. Utiliza el menú lateral para navegar entre los diferentes servicios de mantenimiento.</p>
+      </div>
 
-  function abrirPlantilla(numeroHabitacion) {
-    // Redirige al archivo historial.html con número de habitación por GET
-    window.location.href = `view/historial.html?habitacion=${numeroHabitacion}`;
-  }
+      <!-- Services Overview -->
+      <div class="stats-grid">
+        <?php if (in_array("minisplit", $plantillas)): ?>
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon primary">
+              <i data-lucide="air-vent"></i>
+            </div>
+          </div>
+          <div class="stat-number">Minisplit</div>
+          <div class="stat-label">Mantenimiento disponible</div>
+        </div>
+        <?php endif; ?>
 
-  lucide.createIcons();
+        <?php if (in_array("habitaciones", $plantillas)): ?>
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon success">
+              <i data-lucide="bed"></i>
+            </div>
+          </div>
+          <div class="stat-number">Habitaciones</div>
+          <div class="stat-label">Gestión disponible</div>
+        </div>
+        <?php endif; ?>
+
+        <?php if (in_array("camara", $plantillas)): ?>
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon warning">
+              <i data-lucide="camera"></i>
+            </div>
+          </div>
+          <div class="stat-number">Cámaras</div>
+          <div class="stat-label">Sistema disponible</div>
+        </div>
+        <?php endif; ?>
+
+        <?php if (in_array("electricidad", $plantillas)): ?>
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon primary">
+              <i data-lucide="zap"></i>
+            </div>
+          </div>
+          <div class="stat-number">Electricidad</div>
+          <div class="stat-label">Servicio disponible</div>
+        </div>
+        <?php endif; ?>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <?php if (in_array("minisplit", $plantillas)): ?>
+        <a href="view/MantenimientoGeneralMinisplit.html" class="action-btn">
+          <i data-lucide="air-vent"></i>
+          Ir a Minisplit
+        </a>
+        <?php endif; ?>
+
+        <?php if (in_array("habitaciones", $plantillas)): ?>
+        <a href="view/habitaciones.html" class="action-btn">
+          <i data-lucide="bed"></i>
+          Gestionar Habitaciones
+        </a>
+        <?php endif; ?>
+
+        <?php if (in_array("historial", $plantillas)): ?>
+        <a href="#" class="action-btn" onclick="toggleSubmenu('historial')">
+          <i data-lucide="history"></i>
+          Ver Historial
+        </a>
+        <?php endif; ?>
+
+        <?php if (in_array("plomeria", $plantillas)): ?>
+        <a href="view/plomeria.html" class="action-btn">
+          <i data-lucide="droplets"></i>
+          Servicio Plomería
+        </a>
+        <?php endif; ?>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    function toggleSubmenu(id) {
+      const submenu = document.getElementById(`submenu-${id}`);
+      const parent = submenu?.parentElement;
+
+      if (submenu && parent) {
+        submenu.classList.toggle("active");
+        parent.classList.toggle("expanded");
+      }
+    }
+
+    function abrirPlantilla(numeroHabitacion) {
+      window.location.href = `view/historial.html?habitacion=${numeroHabitacion}`;
+    }
+
+    function toggleMobileMenu() {
+      const sidebar = document.querySelector('.sidebar');
+      const overlay = document.querySelector('.mobile-overlay');
+      
+      sidebar.classList.toggle('mobile-open');
+      overlay.classList.toggle('active');
+    }
+
+    function closeMobileMenu() {
+      const sidebar = document.querySelector('.sidebar');
+      const overlay = document.querySelector('.mobile-overlay');
+      
+      sidebar.classList.remove('mobile-open');
+      overlay.classList.remove('active');
+    }
+
+    // Close mobile menu when clicking on menu items
+    document.querySelectorAll('.sidebar .menu-item').forEach(item => {
+      if (!item.classList.contains('has-submenu')) {
+        item.addEventListener('click', closeMobileMenu);
+      }
+    });
+  </script>
+  <script>
+  function abrirHistorialHabitacion(numero) {
+  window.location.href = `view/historial_habitaciones.html?habitacion=${numero}`;
+}
 </script>
 
 </body>

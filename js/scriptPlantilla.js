@@ -173,7 +173,6 @@ function saveAsDraft() {
 }
 
 
-
 function completeService() {
   if (confirm('¿Estás seguro de que deseas completar este servicio?')) {
     alert('Servicio completado exitosamente');
@@ -440,11 +439,312 @@ async function generarYGuardarPDF() {
 
 async function generateReport() {
   try {
-    y = 10;
-    doc.setFontSize(12);
-    doc.setFont(undefined, "normal");
+    // Crear nuevo documento PDF
+    const doc = new jsPDF();
+    let y = 20;
+    const pageHeight = doc.internal.pageSize.height;
+    const pageWidth = doc.internal.pageSize.width;
+    const margin = 20;
+    const maxWidth = pageWidth - (margin * 2);
 
-    // 🎯 INICIO DEL REPORTE
+    // Definir colores profesionales
+    const colors = {
+      primary: [41, 128, 185],      // Azul profesional
+      secondary: [52, 73, 94],      // Gris oscuro
+      success: [39, 174, 96],       // Verde
+      danger: [231, 76, 60],        // Rojo
+      warning: [241, 196, 15],      // Amarillo
+      light: [236, 240, 241],       // Gris claro
+      lighter: [250, 250, 250],     // Gris muy claro
+      text: [44, 62, 80]            // Texto principal
+    };
+
+    // Funciones de utilidad para el diseño
+    function setColor(colorArray) {
+      doc.setTextColor(...colorArray);
+    }
+
+    function setFillColor(colorArray) {
+      doc.setFillColor(...colorArray);
+    }
+
+    function drawRect(x, y, width, height, fill = false) {
+      if (fill) {
+        doc.rect(x, y, width, height, 'F');
+      } else {
+        doc.rect(x, y, width, height);
+      }
+    }
+
+    function drawLine(x1, y1, x2, y2) {
+      doc.line(x1, y1, x2, y2);
+    }
+
+    // Función mejorada para verificar salto de página
+    const checkPageBreak = (requiredSpace = 20) => {
+      if (y + requiredSpace > pageHeight - 40) {
+        doc.addPage();
+        y = 30;
+        return true;
+      }
+      return false;
+    };
+
+    // Función mejorada para crear títulos de sección
+    const addTitle = (title) => {
+      checkPageBreak(25);
+      
+      // Fondo de la sección
+      setFillColor(colors.lighter);
+      drawRect(margin, y - 8, maxWidth, 20, true);
+      
+      // Título de la sección
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      setColor(colors.secondary);
+      doc.text(title, margin + 5, y + 5);
+      
+      y += 18;
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+      setColor(colors.text);
+    };
+
+    // Función mejorada para agregar texto
+    const addText = (label, value) => {
+      checkPageBreak();
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      setColor(colors.text);
+      doc.text(`${label}:`, margin + 5, y);
+      doc.setFont('helvetica', 'normal');
+      doc.text(value || 'N/A', margin + 60, y);
+      y += 8;
+    };
+
+    // Función mejorada para bloques de texto
+    const addTextBlock = (label, value) => {
+      checkPageBreak();
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      setColor(colors.text);
+      doc.text(`${label}:`, margin + 5, y);
+      doc.setFont('helvetica', 'normal');
+      doc.text(value || 'N/A', margin + 60, y);
+      y += 8;
+    };
+
+    // Función mejorada para texto envuelto con observaciones estilizadas
+    const addWrappedText = (label, value) => {
+      if (value && value.trim()) {
+        checkPageBreak(20);
+        
+        // Fondo amarillo claro para observaciones
+        setFillColor([255, 252, 230]);
+        const obsHeight = doc.splitTextToSize(value, maxWidth - 20).length * 6 + 16;
+        drawRect(margin + 5, y - 5, maxWidth - 10, obsHeight, true);
+        
+        // Borde
+        doc.setDrawColor(...colors.warning);
+        doc.setLineWidth(1);
+        drawRect(margin + 5, y - 5, maxWidth - 10, obsHeight);
+        
+        // Título
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'bold');
+        setColor(colors.secondary);
+        doc.text(label + ':', margin + 10, y + 5);
+        y += 12;
+        
+        // Contenido
+        doc.setFont('helvetica', 'italic');
+        setColor([120, 120, 120]);
+        const lines = doc.splitTextToSize(value, maxWidth - 20);
+        lines.forEach(line => {
+          checkPageBreak();
+          doc.text(line, margin + 10, y);
+          y += 6;
+        });
+        y += 10;
+      }
+    };
+
+    // Función mejorada para checklist estilizada
+    const addChecklist = (doc, items) => {
+      doc.setFont('helvetica', 'normal');
+      let hasItems = false;
+      
+      items.forEach(item => {
+        const checkbox = document.getElementById(item.id);
+        if (checkbox && checkbox.checked) {
+          checkPageBreak();
+          
+          // Checkbox estilizado
+          const checkboxX = margin + 10;
+          const checkboxY = y - 4;
+          const checkboxSize = 4;
+          
+          // Dibujar cuadro
+          doc.setDrawColor(100, 100, 100);
+          doc.setLineWidth(0.5);
+          drawRect(checkboxX, checkboxY, checkboxSize, checkboxSize);
+          
+          // Rellenar con verde
+          setFillColor(colors.success);
+          drawRect(checkboxX + 0.5, checkboxY + 0.5, checkboxSize - 1, checkboxSize - 1, true);
+          
+          // Marca de verificación
+          doc.setFontSize(8);
+          doc.setFont('helvetica', 'bold');
+          setColor([255, 255, 255]);
+          doc.text('X', checkboxX + 1, checkboxY + 3);
+          
+          // Texto del item
+          doc.setFontSize(10);
+          doc.setFont('helvetica', 'normal');
+          setColor(colors.success);
+          
+          const textLines = doc.splitTextToSize(item.label, maxWidth - 30);
+          textLines.forEach((line, index) => {
+            doc.text(line, checkboxX + 8, y + (index * 6));
+          });
+          
+          y += Math.max(6, textLines.length * 6);
+          hasItems = true;
+        }
+      });
+
+      if (!hasItems) {
+        checkPageBreak();
+        doc.setFont('helvetica', 'italic');
+        setColor([120, 120, 120]);
+        doc.text("Ninguna opción seleccionada.", margin + 10, y);
+        y += 8;
+      }
+      
+      y += 8;
+    };
+
+    // Función mejorada para agregar imágenes estilizadas
+    const addImages = async (title, ...inputIds) => {
+      let hasImages = false;
+      
+      for (const inputId of inputIds) {
+        const fileInput = document.getElementById(inputId);
+        if (fileInput && fileInput.files.length > 0) {
+          if (!hasImages) {
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            setColor(colors.secondary);
+            doc.text(title, margin + 5, y);
+            y += 10;
+            hasImages = true;
+          }
+          
+          const file = fileInput.files[0];
+          const imgData = await toBase64(file);
+          
+          checkPageBreak(80);
+          
+          try {
+            // Fondo para la imagen
+            setFillColor(colors.lighter);
+            drawRect(margin + 5, y - 5, maxWidth - 10, 75, true);
+            
+            // Título de la foto
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            setColor(colors.secondary);
+            doc.text(`IMAGEN: ${file.name}`, margin + 10, y + 5);
+            y += 12;
+            
+            // Insertar imagen centrada
+            const imgWidth = 90;
+            const imgHeight = 50;
+            const imgX = (pageWidth - imgWidth) / 2;
+            
+            // Borde de la imagen
+            doc.setDrawColor(...colors.secondary);
+            doc.setLineWidth(1);
+            drawRect(imgX - 2, y - 2, imgWidth + 4, imgHeight + 4);
+            
+            doc.addImage(imgData, 'JPEG', imgX, y, imgWidth, imgHeight);
+            y += imgHeight + 15;
+            
+          } catch (error) {
+            console.error('Error insertando imagen:', error);
+            checkPageBreak();
+            setColor(colors.danger);
+            doc.text(`(Error al cargar imagen: ${file.name})`, margin + 10, y);
+            y += 8;
+          }
+        }
+      }
+    };
+
+    // Función mejorada para agregar firma
+    const addSignature = () => {
+      const canvas = document.getElementById("signature-canvas");
+      if (canvas) {
+        checkPageBreak(80);
+        
+        // Título de la sección
+        addTitle('FIRMA DEL CLIENTE');
+        
+        try {
+          const imgData = canvas.toDataURL("image/png");
+          
+          // Marco para la firma
+          const signatureWidth = 120;
+          const signatureHeight = 60;
+          const signatureX = (pageWidth - signatureWidth) / 2;
+          
+          doc.setDrawColor(...colors.secondary);
+          doc.setLineWidth(2);
+          drawRect(signatureX - 5, y - 5, signatureWidth + 10, signatureHeight + 15);
+          
+          doc.addImage(imgData, 'PNG', signatureX, y, signatureWidth, signatureHeight);
+          y += signatureHeight + 20;
+          
+          // Línea para fecha
+          drawLine(signatureX, y, signatureX + signatureWidth, y);
+          doc.setFontSize(10);
+          doc.setFont('helvetica', 'normal');
+          setColor(colors.text);
+          const fechaText = `Fecha: ${new Date().toLocaleDateString()}`;
+          const fechaWidth = doc.getTextWidth(fechaText);
+          doc.text(fechaText, signatureX + (signatureWidth - fechaWidth) / 2, y + 8);
+          
+        } catch (error) {
+          console.error('Error insertando firma:', error);
+          setColor(colors.danger);
+          doc.text('(Error al cargar firma)', margin, y);
+        }
+      }
+    };
+
+    // === ENCABEZADO PROFESIONAL ===
+    // Fondo del encabezado
+    setFillColor(colors.primary);
+    drawRect(0, 0, pageWidth, 45, true);
+    
+    // Título principal
+    doc.setFontSize(20);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(255, 255, 255);
+    const title = 'REPORTE DE MANTENIMIENTO DE AIRE ACONDICIONADO';
+    const titleWidth = doc.getTextWidth(title);
+    doc.text(title, (pageWidth - titleWidth) / 2, 25);
+    
+    // Línea decorativa
+    doc.setDrawColor(255, 255, 255);
+    doc.setLineWidth(1);
+    drawLine(margin, 35, pageWidth - margin, 35);
+    
+    y = 60;
+
+    // 🎯 INICIO DEL REPORTE (mantiene toda la funcionalidad original)
+    addTitle("INFORMACION DEL SERVICIO");
     addText("Nombre del Cliente", document.getElementById("client-name").value || "");
     addText("Dirección", document.getElementById("client-address").value || "");
     addText("Fecha del Servicio", document.getElementById("service-date").value || "");
@@ -553,6 +853,37 @@ async function generateReport() {
     addTextBlock("Cliente que Firma", document.getElementById('client-signature-name').value);
     addSignature();
 
+    // === PIE DE PÁGINA PROFESIONAL ===
+    const totalPages = doc.internal.getNumberOfPages();
+    const clientName = document.getElementById("client-name")?.value || 'Cliente';
+    
+    for (let i = 1; i <= totalPages; i++) {
+      doc.setPage(i);
+      
+      // Línea superior del pie
+      doc.setDrawColor(...colors.light);
+      doc.setLineWidth(1);
+      drawLine(margin, pageHeight - 25, pageWidth - margin, pageHeight - 25);
+      
+      // Información del pie
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'normal');
+      setColor([120, 120, 120]);
+      
+      // Fecha de generación (izquierda)
+      doc.text(`Generado: ${new Date().toLocaleString()}`, margin, pageHeight - 15);
+      
+      // Número de página (derecha)
+      const pageText = `Pagina ${i} de ${totalPages}`;
+      const pageTextWidth = doc.getTextWidth(pageText);
+      doc.text(pageText, pageWidth - margin - pageTextWidth, pageHeight - 15);
+      
+      // Información del cliente (centro)
+      const clientText = clientName.toUpperCase();
+      const clientTextWidth = doc.getTextWidth(clientText);
+      doc.text(clientText, (pageWidth - clientTextWidth) / 2, pageHeight - 15);
+    }
+
     // ✅ GUARDAR PDF
     doc.save("Reporte_Mantenimiento.pdf");
     
@@ -560,36 +891,36 @@ async function generateReport() {
     console.error("Error al generar el reporte:", error);
     alert("Hubo un error al generar el PDF.");
   }
+  
   // Convertir el PDF generado a Blob
-const pdfBlob = doc.output('blob');
+  const pdfBlob = doc.output('blob');
 
-// Datos del formulario
-const numeroHabitacion = document.getElementById('numero_habitacion').value;
-const nombreCliente = document.getElementById('client-name').value;
-const fechaServicio = document.getElementById('service-date').value;
-const nombreArchivo = `reporte_hab_${numeroHabitacion}_${Date.now()}.pdf`;
+  // Datos del formulario
+  const numeroHabitacion = document.getElementById('numero_habitacion').value;
+  const nombreCliente = document.getElementById('client-name').value;
+  const fechaServicio = document.getElementById('service-date').value;
+  const nombreArchivo = `reporte_hab_${numeroHabitacion}_${Date.now()}.pdf`;
 
-// Crear FormData para enviar por POST
-const formData = new FormData();
-formData.append('numero_habitacion', numeroHabitacion);
-formData.append('nombre_cliente', nombreCliente);
-formData.append('fecha_servicio', fechaServicio);
-formData.append('nombre_archivo', nombreArchivo);
-formData.append('archivo_pdf', pdfBlob, nombreArchivo);
+  // Crear FormData para enviar por POST
+  const formData = new FormData();
+  formData.append('numero_habitacion', numeroHabitacion);
+  formData.append('nombre_cliente', nombreCliente);
+  formData.append('fecha_servicio', fechaServicio);
+  formData.append('nombre_archivo', nombreArchivo);
+  formData.append('archivo_pdf', pdfBlob, nombreArchivo);
 
-// Enviar al backend
-try {
-  const response = await fetch('../includes/guardar_pdf.php', {
-    method: 'POST',
-    body: formData
-  });
+  // Enviar al backend
+  try {
+    const response = await fetch('../includes/guardar_pdf.php', {
+      method: 'POST',
+      body: formData
+    });
 
-  const result = await response.text();
-  console.log("Resultado del guardado:", result);
-  alert("PDF generado y guardado exitosamente.");
-} catch (error) {
-  console.error("Error al guardar PDF:", error);
-  alert("Error al guardar el reporte en la base de datos.");
-}
-
+    const result = await response.text();
+    console.log("Resultado del guardado:", result);
+    alert("PDF generado y guardado exitosamente.");
+  } catch (error) {
+    console.error("Error al guardar PDF:", error);
+    alert("Error al guardar el reporte en la base de datos.");
+  }
 }

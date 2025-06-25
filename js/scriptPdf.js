@@ -634,5 +634,32 @@ if (i !== 8) {
 
   // Guardar el PDF
   const fileName = `reporte-habitacion-${data.personal.habitacion || 'sin-numero'}-${new Date().toISOString().slice(0, 10)}.pdf`;
-  doc.save(fileName);
+  // Convertir el PDF a blob
+const pdfBlob = doc.output('blob');
+
+// Crear FormData con PDF y datos
+const formData = new FormData();
+formData.append('pdf', pdfBlob, fileName);
+formData.append('nombre_personal', data.personal.nombre || '');
+formData.append('nombre_hotel', data.personal.hotel || '');
+formData.append('numero_habitacion', data.personal.habitacion || '');
+formData.append('fecha_servicio', data.personal.fecha || '');
+formData.append('hora_inicio', data.personal.hora_inicio || '');
+formData.append('nombre_archivo', fileName);
+
+// Enviar al servidor
+fetch('../php/guardar_pdf_habitaciones.php', {
+  method: 'POST',
+  body: formData
+})
+.then(response => response.text())
+.then(result => {
+  alert('✅ PDF generado y datos guardados en la base de datos.');
+  console.log(result);
+})
+.catch(error => {
+  console.error('❌ Error al guardar:', error);
+  alert('Error al guardar el PDF.');
+});
+
 }

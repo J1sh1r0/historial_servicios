@@ -1011,9 +1011,6 @@ body.login-page::before {
   }
 }
 
-
-
-
 /* User Controls */
 .user-controls {
   display: flex;
@@ -1441,6 +1438,8 @@ body.login-page::before {
 
 
   /* CSS adicional para la tabla de reportes */
+/* CSS adicional para la tabla de reportes */
+
         .main-subtitle {
             color: var(--gray-600);
             font-size: var(--font-size-sm);
@@ -1517,3 +1516,164 @@ body.login-page::before {
                 align-self: flex-end;
             }
         }
+
+      /* Fix específico para quick-actions - Sobrescribir estilos conflictivos */
+
+.quick-actions {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  gap: 16px !important; /* Espaciado entre botones */
+}
+
+.quick-actions .action-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px 24px !important; /* Padding cómodo */
+  background: white !important;
+  border: 2px solid var(--gray-200) !important;
+  border-radius: 16px !important;
+  color: var(--gray-700) !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+  gap: 10px !important;
+  font-size: 16px !important;
+  flex-direction: row !important;
+  text-align: center !important;
+  width: auto !important;          /* ⚠️ Ajuste automático al contenido */
+  height: auto !important;         /* ⚠️ Sin altura fija */
+  max-width: 100%; /* Evita desbordes en columnas pequeñas */
+}
+
+.quick-actions .action-btn:hover {
+  border-color: var(--primary-500) !important;
+  color: var(--primary-600) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Iconos */
+.quick-actions .action-btn i {
+  width: 24px !important;
+  height: 24px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Responsive para mobile */
+@media (max-width: 768px) {
+  .quick-actions {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .action-btn {
+    font-size: 15px !important;
+    padding: 14px 20px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Estado de focus mejorado */
+.action-btn:focus {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+/* Efecto hover mejorado */
+.action-btn:hover i {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+/* Estilos para botón btn-editar */
+.btn-editar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2) var(--space-4);
+  background: var(--primary-100);
+  color: var(--primary-600);
+  border: 1px solid var(--primary-200);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-decoration: none;
+  gap: var(--space-2);
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-editar:hover {
+  background: var(--primary-200);
+  color: var(--primary-700);
+  border-color: var(--primary-300);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-editar:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-editar:focus {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+.btn-editar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Variante con icono */
+.btn-editar::before {
+  content: "✏️";
+  margin-right: var(--space-1);
+}
+
+/* Variante alternativa sin emoji, usando símbolo */
+.btn-editar.no-emoji::before {
+  content: "✎";
+  font-size: var(--font-size-base);
+}
+
+/* Variante pequeña para tablas */
+.btn-editar.small {
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.75rem;
+  min-height: 28px;
+}
+
+/* Variante solo icono para espacios reducidos */
+.btn-editar.icon-only {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  justify-content: center;
+}
+
+.btn-editar.icon-only::before {
+  margin-right: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .btn-editar {
+    padding: var(--space-2) var(--space-3);
+    font-size: 0.75rem;
+  }
+  
+  .btn-editar.small {
+    padding: var(--space-1) var(--space-2);
+    font-size: 0.6875rem;
+  }
+}
