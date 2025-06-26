@@ -397,32 +397,42 @@ async function generateReport() {
     }
 
     // === OBSERVACIONES ===
-    if (paso.observaciones && paso.observaciones.trim()) {
-      checkPageBreak(20);
-      
-      // Fondo amarillo claro para observaciones
-      setFillColor([255, 252, 230]);
-      const obsHeight = doc.splitTextToSize(paso.observaciones, maxWidth - 20).length * 6 + 16;
-      drawRect(margin + 5, y - 5, maxWidth - 10, obsHeight, true);
-      
-      // Borde
-      doc.setDrawColor(...colors.warning);
-      doc.setLineWidth(1);
-      drawRect(margin + 5, y - 5, maxWidth - 10, obsHeight);
-      
-      // Título
-      doc.setFontSize(11);
-      doc.setFont('helvetica', 'bold');
-      setColor(colors.secondary);
-      doc.text('OBSERVACIONES:', margin + 10, y + 5);
-      y += 12;
-      
-      // Contenido
-      doc.setFont('helvetica', 'italic');
-      setColor([120, 120, 120]);
-      y = addWrappedText(paso.observaciones, margin + 10, y, maxWidth - 20, 10, 'italic');
-      y += 10;
-    }
+     if (paso.observaciones && paso.observaciones.trim()) {
+  // Calcular cuántas líneas ocupará
+  const obsLines = doc.splitTextToSize(paso.observaciones, maxWidth - 20);
+  const obsHeight = obsLines.length * 6 + 16;
+
+  // Verificar si cabe en la página antes de empezar
+  checkPageBreak(obsHeight + 20);
+
+  // Fondo amarillo claro para observaciones
+  setFillColor([255, 252, 230]);
+  drawRect(margin + 5, y - 5, maxWidth - 10, obsHeight, true);
+
+  // Borde
+  doc.setDrawColor(...colors.warning);
+  doc.setLineWidth(1);
+  drawRect(margin + 5, y - 5, maxWidth - 10, obsHeight);
+
+  // Título
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'bold');
+  setColor(colors.secondary);
+  doc.text('OBSERVACIONES:', margin + 10, y + 5);
+  y += 12;
+
+  // Contenido
+  doc.setFont('helvetica', 'italic');
+  setColor([120, 120, 120]);
+
+  // Aquí usamos las líneas ya calculadas
+  obsLines.forEach(line => {
+    doc.text(line, margin + 10, y);
+    y += 6;
+  });
+
+  y += 10;
+}
 
     // === FOTOS ===
     if (paso.fotos && paso.fotos.length > 0) {
