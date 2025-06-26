@@ -750,6 +750,8 @@ async function generateReport() {
     addText("Fecha del Servicio", document.getElementById("service-date").value || "");
     addText("Marca del Equipo", document.getElementById("equipment-brand").value || "");
     addText("Modelo", document.getElementById("equipment-model").value || "");
+    addText("Número de Habitación", document.getElementById("numero_habitacion").value || "");
+
 
     y += 5;
 
@@ -885,42 +887,36 @@ async function generateReport() {
     }
 
     // ✅ GUARDAR PDF
-    doc.save("Reporte_Mantenimiento.pdf");
+    const pdfBlob = doc.output('blob');
+const fileName = `reporte_mantenimiento_${new Date().toISOString().slice(0, 10)}.pdf`;
+const formData = new FormData();
+
+formData.append('pdf', pdfBlob, fileName);
+formData.append('numero_habitacion', document.getElementById('numero_habitacion').value || '');
+formData.append('nombre_cliente', document.getElementById('client-name').value || '');
+formData.append('fecha_servicio', document.getElementById('service-date').value || '');
+formData.append('nombre_archivo', fileName);
+
+// Enviar al servidor
+fetch('../php/guardar_pdf_mantenimiento.php', {
+  method: 'POST',
+  body: formData
+})
+.then(response => response.text())
+.then(result => {
+  alert('✅ Reporte generado y guardado correctamente.');
+  console.log(result);
+})
+.catch(error => {
+  console.error('❌ Error al guardar:', error);
+  alert('Error al guardar el reporte.');
+});
+
     
   } catch (error) {
     console.error("Error al generar el reporte:", error);
     alert("Hubo un error al generar el PDF.");
   }
-  
-  // Convertir el PDF generado a Blob
-  const pdfBlob = doc.output('blob');
 
-  // Datos del formulario
-  const numeroHabitacion = document.getElementById('numero_habitacion').value;
-  const nombreCliente = document.getElementById('client-name').value;
-  const fechaServicio = document.getElementById('service-date').value;
-  const nombreArchivo = `reporte_hab_${numeroHabitacion}_${Date.now()}.pdf`;
 
-  // Crear FormData para enviar por POST
-  const formData = new FormData();
-  formData.append('numero_habitacion', numeroHabitacion);
-  formData.append('nombre_cliente', nombreCliente);
-  formData.append('fecha_servicio', fechaServicio);
-  formData.append('nombre_archivo', nombreArchivo);
-  formData.append('archivo_pdf', pdfBlob, nombreArchivo);
-
-  // Enviar al backend
-  try {
-    const response = await fetch('../includes/guardar_pdf.php', {
-      method: 'POST',
-      body: formData
-    });
-
-    const result = await response.text();
-    console.log("Resultado del guardado:", result);
-    alert("PDF generado y guardado exitosamente.");
-  } catch (error) {
-    console.error("Error al guardar PDF:", error);
-    alert("Error al guardar el reporte en la base de datos.");
-  }
 }
