@@ -1,0 +1,19 @@
+# Habilita el uso de mod_rewrite
+RewriteEngine On
+
+# Establece index.php como página principal
+DirectoryIndex index.php
+
+# Redireccionar todas las peticiones a index.php si no es un archivo o directorio existente
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Opcional: Proteger archivos sensibles
+<FilesMatch "\.(htaccess|env|ini|log|sql)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Establecer codificación UTF-8 por defecto
+AddDefaultCharset UTF-8
