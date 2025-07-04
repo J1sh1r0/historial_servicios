@@ -46,13 +46,16 @@
                 <div class="reports-table-container">
                     <table class="reports-table">
                         <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Fecha del Servicio</th>
-                                <th>Nombre del Técnico</th>
-                                <th>Acción</th>
-                            </tr>
-                        </thead>
+                        <thead>
+    <tr>
+        <th><input type="checkbox" id="selectAll" /></th>
+        <th>#</th>
+        <th>Fecha del Servicio</th>
+        <th>Nombre del Técnico</th>
+        <th>Acción</th>
+    </tr>
+</thead>
+
                         <tbody id="tablaReportes">
                             <!-- Empty state -->
                             <tr class="empty-state">
@@ -67,8 +70,18 @@
                         </tbody>
                     </table>
                 </div>
+                <div style="margin-bottom: 10px;">
+    <button onclick="borrarSeleccionados()">🗑️ Borrar</button>
+    <input type="email" id="correoDestino" placeholder="Correo destino" style="margin-bottom: 10px; padding: 6px;" />
+    <button onclick="compartirSeleccionados()">🤝 Compartir</button>
+    <button onclick="compartirPorWhatsApp()">📤 Compartir por WhatsApp</button>
+
+</div>
+
             </div>
+            
         </div>
+        
     </div>
 
     <script>
@@ -98,15 +111,17 @@
                             </tr>`;
                     } else {
                         data.forEach((item, index) => {
-                            const fila = document.createElement("tr");
-                            fila.innerHTML = `
-                                <td>${index + 1}</td>
-                                <td>${item.fecha_servicio}</td>
-                                <td>${item.nombre_personal}</td>
-                                <td><a href="../${item.ruta_pdf}" target="_blank">Ver PDF</a></td>
-                            `;
-                            tabla.appendChild(fila);
-                        });
+    const fila = document.createElement("tr");
+    fila.innerHTML = `
+        <td><input type="checkbox" class="checkbox-fila" value="${item.id}" /></td>
+        <td>${index + 1}</td>
+        <td>${item.fecha_servicio}</td>
+        <td>${item.nombre_personal}</td>
+        <td><a href="../${item.ruta_pdf}" target="_blank">Ver PDF</a></td>
+    `;
+    tabla.appendChild(fila);
+});
+
                     }
                 })
                 .catch(err => {
@@ -114,5 +129,113 @@
                 });
         }
     </script>
+    <script>
+    // Seleccionar/Deseleccionar todos
+    document.getElementById('selectAll').addEventListener('change', function () {
+        const checkboxes = document.querySelectorAll('.checkbox-fila');
+        checkboxes.forEach(chk => chk.checked = this.checked);
+    });
+
+    function getSeleccionados() {
+        return [...document.querySelectorAll('.checkbox-fila:checked')]
+            .map(chk => chk.value);
+    }
+
+    function borrarSeleccionados() {
+        const seleccionados = getSeleccionados();
+        if (seleccionados.length === 0) {
+            alert("Selecciona al menos un reporte para borrar.");
+            return;
+        }
+        // Aquí haces fetch o confirmación para eliminar
+        console.log("Eliminar:", seleccionados);
+    }
+
+    function compartirSeleccionados() {
+        const seleccionados = getSeleccionados();
+        if (seleccionados.length === 0) {
+            alert("Selecciona al menos un reporte para compartir.");
+            return;
+        }
+        // Aquí haces fetch o proceso para compartir
+        console.log("Compartir:", seleccionados);
+    }
+</script>
+<script>
+    function compartirPorWhatsApp() {
+        const seleccionados = [...document.querySelectorAll('.checkbox-fila:checked')];
+
+        if (seleccionados.length === 0) {
+            alert("Selecciona al menos un reporte para compartir por WhatsApp.");
+            return;
+        }
+
+        let mensaje = "📋 *Reportes de Servicio*%0A";
+        mensaje += `Habitación: ${document.getElementById('numHabitacion').textContent}%0A%0A`;
+
+        seleccionados.forEach((chk, index) => {
+            const row = chk.closest('tr');
+            const fecha = row.children[2].textContent;
+            const tecnico = row.children[3].textContent;
+            const link = row.children[4].querySelector('a').href;
+
+            mensaje += `${index + 1}. Técnico: ${tecnico}%0A📅 Fecha: ${fecha}%0A📎 Link: ${link}%0A%0A`;
+        });
+
+        // Abrir WhatsApp Web con el mensaje prellenado
+        const url = `https://wa.me/?text=${mensaje}`;
+        window.open(url, "_blank");
+    }
+</script>
+<script>
+function compartirSeleccionados() {
+    const seleccionados = [...document.querySelectorAll('.checkbox-fila:checked')];
+    const correo = document.getElementById('correoDestino').value.trim();
+
+    if (!correo) {
+        alert("Debes ingresar un correo destino.");
+        return;
+    }
+
+    if (seleccionados.length === 0) {
+        alert("Selecciona al menos un reporte para compartir.");
+        return;
+    }
+
+    const archivos = seleccionados.map(chk => {
+        const row = chk.closest('tr');
+        const link = row.children[4].querySelector('a').getAttribute('href');
+        return link.replace(/^(\.\.\/)+/, ''); // Solo ruta relativa sin "../"
+    });
+
+    const formData = new FormData();
+    formData.append('correo', correo);
+    formData.append('archivos', JSON.stringify(archivos));
+
+    fetch('../php/enviar_por_correo.php', {
+  method: 'POST',
+  body: formData
+})
+.then(res => res.text()) // 👈 para ver el texto puro
+.then(text => {
+  console.log("Texto recibido:", text); // 👈 Esto mostrará el HTML de error
+  try {
+    const data = JSON.parse(text);
+    if (data.success) {
+      alert("✅ Correo enviado correctamente.");
+    } else {
+      alert("❌ Error al enviar: " + data.message);
+    }
+  } catch (e) {
+    alert("❌ La respuesta no es JSON válido:\n" + text);
+  }
+})
+.catch(err => {
+  console.error('Error de conexión:', err);
+  alert("❌ Error de conexión.");
+});
+
+}
+</script>
 </body>
 </html>
