@@ -1,9 +1,9 @@
 <?php
 $host = "localhost";
 $usuario = "root";
-$clave = "miclave123";
+$clave = "";
 $bd = "Sistema_De_Control";
-$puerto = 3307;
+$puerto = 3306;
 
 $conn = new mysqli($host, $usuario, $clave, $bd, $puerto);
 
