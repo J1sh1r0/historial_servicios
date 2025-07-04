@@ -296,7 +296,7 @@ $plantillas = isset($_SESSION["plantillas"]) ? explode(",", strtolower($_SESSION
     }
 
     function abrirPlantilla(numeroHabitacion) {
-      window.location.href = `view/historial.html?habitacion=${numeroHabitacion}`;
+      window.location.href = `view/historial_habitaciones.html?habitacion=${numeroHabitacion}`;
     }
 
     function toggleMobileMenu() {
