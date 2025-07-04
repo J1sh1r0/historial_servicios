@@ -250,55 +250,69 @@ let isDrawing = false;
 const canvas = document.getElementById('signature-canvas');
 const ctx = canvas.getContext('2d');
 
-canvas.addEventListener('mousedown', startDrawing);
-canvas.addEventListener('mousemove', draw);
-canvas.addEventListener('mouseup', stopDrawing);
-canvas.addEventListener('touchstart', handleTouch);
-canvas.addEventListener('touchmove', handleTouch);
-canvas.addEventListener('touchend', stopDrawing);
-
-function startDrawing(e) {
+// Eventos para mouse (PC)
+canvas.addEventListener('mousedown', (e) => {
   isDrawing = true;
-  draw(e);
-}
-
-function draw(e) {
-  if (!isDrawing) return;
-  
-  const rect = canvas.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  
-  ctx.lineWidth = 2;
-  ctx.lineCap = 'round';
-  ctx.strokeStyle = '#333';
-  
-  ctx.lineTo(x, y);
-  ctx.stroke();
+  const { x, y } = getXY(e);
   ctx.beginPath();
   ctx.moveTo(x, y);
-}
+});
 
-function stopDrawing() {
+canvas.addEventListener('mousemove', (e) => {
   if (!isDrawing) return;
+  const { x, y } = getXY(e);
+  ctx.lineTo(x, y);
+  ctx.stroke();
+});
+
+canvas.addEventListener('mouseup', () => {
   isDrawing = false;
   ctx.beginPath();
-}
+});
 
-function handleTouch(e) {
+// Eventos para touch (móvil)
+canvas.addEventListener('touchstart', (e) => {
   e.preventDefault();
-  const touch = e.touches[0];
-  const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 
-                                  e.type === 'touchmove' ? 'mousemove' : 'mouseup', {
-    clientX: touch.clientX,
-    clientY: touch.clientY
-  });
-  canvas.dispatchEvent(mouseEvent);
+  isDrawing = true;
+  const { x, y } = getXY(e);
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+}, { passive: false });
+
+canvas.addEventListener('touchmove', (e) => {
+  e.preventDefault();
+  if (!isDrawing) return;
+  const { x, y } = getXY(e);
+  ctx.lineTo(x, y);
+  ctx.stroke();
+}, { passive: false });
+
+canvas.addEventListener('touchend', () => {
+  isDrawing = false;
+  ctx.beginPath();
+});
+
+// Función para obtener coordenadas (mouse o touch)
+function getXY(e) {
+  const rect = canvas.getBoundingClientRect();
+  if (e.touches && e.touches.length > 0) {
+    return {
+      x: e.touches[0].clientX - rect.left,
+      y: e.touches[0].clientY - rect.top
+    };
+  } else {
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    };
+  }
 }
 
+// Limpiar la firma
 function clearSignature() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
+
 
 // Funciones de navegación del menú
 function toggleSubmenu(id) {
