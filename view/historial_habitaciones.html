@@ -15,6 +15,112 @@
         a {
             color: blue;
         }
+        /* Contenedor de botones de acción */
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+/* Botones de acción */
+.action-buttons button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: white;
+    color: #374151;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.action-buttons button:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Botón de borrar - rojo */
+.action-buttons button[onclick="borrarSeleccionados()"] {
+    color: #dc2626;
+    border-color: #fecaca;
+    background: #fef2f2;
+}
+
+.action-buttons button[onclick="borrarSeleccionados()"]:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+}
+
+/* Botón de compartir - azul */
+.action-buttons button[onclick="compartirSeleccionados()"] {
+    color: #2563eb;
+    border-color: #bfdbfe;
+    background: #eff6ff;
+}
+
+.action-buttons button[onclick="compartirSeleccionados()"]:hover {
+    background: #dbeafe;
+    border-color: #93c5fd;
+}
+
+/* Botón de WhatsApp - verde */
+.action-buttons button[onclick="compartirPorWhatsApp()"] {
+    color: #059669;
+    border-color: #a7f3d0;
+    background: #ecfdf5;
+}
+
+.action-buttons button[onclick="compartirPorWhatsApp()"]:hover {
+    background: #d1fae5;
+    border-color: #86efac;
+}
+
+/* Campo de correo */
+.action-buttons #correoDestino {
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    min-width: 220px;
+    outline: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.action-buttons #correoDestino:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.action-buttons #correoDestino::placeholder {
+    color: #9ca3af;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .action-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .action-buttons button {
+        justify-content: center;
+    }
+    
+    .action-buttons #correoDestino {
+        min-width: unset;
+        width: 100%;
+    }
+}
     </style>
 </head>
 <body>
@@ -70,8 +176,8 @@
                         </tbody>
                     </table>
                 </div>
-                <div style="margin-bottom: 10px;">
-    <button onclick="borrarSeleccionados()">🗑️ Borrar</button>
+                <div class="action-buttons">
+    
     <input type="email" id="correoDestino" placeholder="Correo destino" style="margin-bottom: 10px; padding: 6px;" />
     <button onclick="compartirSeleccionados()">🤝 Compartir</button>
     <button onclick="compartirPorWhatsApp()">📤 Compartir por WhatsApp</button>
