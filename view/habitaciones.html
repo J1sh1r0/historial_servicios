@@ -118,21 +118,27 @@
           </div>
 
           <div class="photo-section">
-            <h3 class="photo-section-title">
-              <i data-lucide="camera"></i>
-              Evidencia Fotográfica - Estado Inicial
-            </h3>
-            <div class="photo-upload">
-              <div class="photo-upload-item" onclick="document.getElementById('photo-inicial-1').click()">
-                <div class="photo-upload-label">Estado general de la habitación</div>
-                <div class="photo-upload-content">
-                  <i data-lucide="camera" class="photo-upload-icon"></i>
-                  <span class="photo-upload-text">Tomar foto</span>
-                </div>
-                <input type="file" id="photo-inicial-1" accept="image/*" style="display: none;"  capture="environment" onchange="previewImage(this, this.parentElement)">
-              </div>
-            </div>
-          </div>
+  <h3 class="photo-section-title">
+    <i data-lucide="camera"></i>
+    Evidencia Fotográfica - Estado Inicial
+  </h3>
+  <div class="photo-upload" data-section="inicial">
+    <div class="photo-upload-item" onclick="document.getElementById('photo-inicial-1').click()">
+      <div class="photo-upload-label">Estado general de la habitación</div>
+      <div class="photo-upload-content">
+        <i data-lucide="camera" class="photo-upload-icon"></i>
+        <span class="photo-upload-text">Tomar foto</span>
+      </div>
+      <input type="file" id="photo-inicial-1" accept="image/*" style="display: none;" capture="environment" onchange="previewImage(this, this.parentElement)">
+    </div>
+  </div>
+  <!-- Botón para agregar más fotos -->
+  <div class="photo-actions">
+    <button type="button" onclick="agregarOtraFoto('inicial')" class="btn-agregar-foto">
+      + Agregar otra foto
+    </button>
+  </div>
+</div>
         </div>
       </div>
 
@@ -200,6 +206,37 @@
             <label for="collection-notes">Observaciones de Recolección</label>
             <textarea id="collection-notes" placeholder="Registra objetos encontrados, estado de la ropa de cama, etc..."></textarea>
           </div>
+          <div class="photo-section">
+  <h3 class="photo-section-title">
+    <i data-lucide="camera"></i>
+    Evidencia Fotográfica - Elementos Recolectados
+  </h3>
+  <div class="photo-upload" data-section="recoleccion">
+    <div class="photo-upload-item" onclick="document.getElementById('photo-recoleccion-1').click()">
+      <div class="photo-upload-label">Ropa de cama recolectada</div>
+      <div class="photo-upload-content">
+        <i data-lucide="camera" class="photo-upload-icon"></i>
+        <span class="photo-upload-text">Tomar foto</span>
+      </div>
+      <input type="file" id="photo-recoleccion-1" accept="image/*" style="display: none;" capture="environment" onchange="previewImage(this, this.parentElement)">
+    </div>
+    
+    <div class="photo-upload-item" onclick="document.getElementById('photo-recoleccion-2').click()">
+      <div class="photo-upload-label">Objetos encontrados</div>
+      <div class="photo-upload-content">
+        <i data-lucide="camera" class="photo-upload-icon"></i>
+        <span class="photo-upload-text">Tomar foto</span>
+      </div>
+      <input type="file" id="photo-recoleccion-2" accept="image/*" style="display: none;" capture="environment" onchange="previewImage(this, this.parentElement)">
+    </div>
+  </div>
+  <!-- Botón para agregar más fotos -->
+  <div class="photo-actions">
+    <button type="button" onclick="agregarOtraFoto('recoleccion')" class="btn-agregar-foto">
+      + Agregar otra foto
+    </button>
+  </div>
+</div>
         </div>
       </div>
 
@@ -272,32 +309,38 @@
               </div>
             </div>
           </div>
-
-          <div class="photo-section">
-            <h3 class="photo-section-title">
-              <i data-lucide="camera"></i>
-              Evidencia Fotográfica - Baño Limpio
-            </h3>
-            <div class="photo-upload">
-              <div class="photo-upload-item" onclick="document.getElementById('photo-bano-1').click()">
-                <div class="photo-upload-label">Baño terminado</div>
-                <div class="photo-upload-content">
-                  <i data-lucide="camera" class="photo-upload-icon"></i>
-                  <span class="photo-upload-text">Tomar foto</span>
-                </div>
-                <input type="file" id="photo-bano-1" accept="image/*" style="display: none;"  capture="environment" onchange="previewImage(this, this.parentElement)">
-              </div>
-              
-              <div class="photo-upload-item" onclick="document.getElementById('photo-bano-2').click()">
-                <div class="photo-upload-label">Amenidades (Productos de tocador) colocadas</div>
-                <div class="photo-upload-content">
-                  <i data-lucide="camera" class="photo-upload-icon"></i>
-                  <span class="photo-upload-text">Tomar foto</span>
-                </div>
-                <input type="file" id="photo-bano-2" accept="image/*" style="display: none;"  capture="environment" onchange="previewImage(this, this.parentElement)">
-              </div>
-            </div>
-          </div>
+           <div class="photo-section">
+  <h3 class="photo-section-title">
+    <i data-lucide="camera"></i>
+    Evidencia Fotográfica - Baño Limpio
+  </h3>
+  <div class="photo-upload" data-section="bano">
+    <div class="photo-upload-item" onclick="document.getElementById('photo-bano-1').click()">
+      <div class="photo-upload-label">Baño terminado</div>
+      <div class="photo-upload-content">
+        <i data-lucide="camera" class="photo-upload-icon"></i>
+        <span class="photo-upload-text">Tomar foto</span>
+      </div>
+      <input type="file" id="photo-bano-1" accept="image/*" style="display: none;" capture="environment" onchange="previewImage(this, this.parentElement)">
+    </div>
+    
+    <div class="photo-upload-item" onclick="document.getElementById('photo-bano-2').click()">
+      <div class="photo-upload-label">Amenidades (Productos de tocador) colocadas</div>
+      <div class="photo-upload-content">
+        <i data-lucide="camera" class="photo-upload-icon"></i>
+        <span class="photo-upload-text">Tomar foto</span>
+      </div>
+      <input type="file" id="photo-bano-2" accept="image/*" style="display: none;" capture="environment" onchange="previewImage(this, this.parentElement)">
+    </div>
+  </div>
+  <!-- Botón para agregar más fotos -->
+  <div class="photo-actions">
+    <button type="button" onclick="agregarOtraFoto('bano')" class="btn-agregar-foto">
+      + Agregar otra foto
+    </button>
+  </div>
+</div>
+         
         </div>
       </div>
 
@@ -360,6 +403,37 @@
               </div>
             </div>
           </div>
+          <div class="photo-section">
+  <h3 class="photo-section-title">
+    <i data-lucide="camera"></i>
+    Evidencia Fotográfica - Superficies Limpias
+  </h3>
+  <div class="photo-upload" data-section="superficies">
+    <div class="photo-upload-item" onclick="document.getElementById('photo-superficies-1').click()">
+      <div class="photo-upload-label">Escritorio/Mesa limpia</div>
+      <div class="photo-upload-content">
+        <i data-lucide="camera" class="photo-upload-icon"></i>
+        <span class="photo-upload-text">Tomar foto</span>
+      </div>
+      <input type="file" id="photo-superficies-1" accept="image/*" style="display: none;" capture="environment" onchange="previewImage(this, this.parentElement)">
+    </div>
+    
+    <div class="photo-upload-item" onclick="document.getElementById('photo-superficies-2').click()">
+      <div class="photo-upload-label">Ventanas y espejos limpios</div>
+      <div class="photo-upload-content">
+        <i data-lucide="camera" class="photo-upload-icon"></i>
+        <span class="photo-upload-text">Tomar foto</span>
+      </div>
+      <input type="file" id="photo-superficies-2" accept="image/*" style="display: none;" capture="environment" onchange="previewImage(this, this.parentElement)">
+    </div>
+  </div>
+  <!-- Botón para agregar más fotos -->
+  <div class="photo-actions">
+    <button type="button" onclick="agregarOtraFoto('superficies')" class="btn-agregar-foto">
+      + Agregar otra foto
+    </button>
+  </div>
+</div>
         </div>
       </div>
 
@@ -424,21 +498,27 @@
           </div>
 
           <div class="photo-section">
-            <h3 class="photo-section-title">
-              <i data-lucide="camera"></i>
-              Evidencia Fotográfica - Cama Preparada
-            </h3>
-            <div class="photo-upload">
-              <div class="photo-upload-item" onclick="document.getElementById('photo-cama-1').click()">
-                <div class="photo-upload-label">Cama terminada</div>
-                <div class="photo-upload-content">
-                  <i data-lucide="camera" class="photo-upload-icon"></i>
-                  <span class="photo-upload-text">Tomar foto</span>
-                </div>
-                <input type="file" id="photo-cama-1" accept="image/*" style="display: none;"  capture="environment" onchange="previewImage(this, this.parentElement)">
-              </div>
-            </div>
-          </div>
+  <h3 class="photo-section-title">
+    <i data-lucide="camera"></i>
+    Evidencia Fotográfica - Cama Preparada
+  </h3>
+  <div class="photo-upload" data-section="cama">
+    <div class="photo-upload-item" onclick="document.getElementById('photo-cama-1').click()">
+      <div class="photo-upload-label">Cama terminada</div>
+      <div class="photo-upload-content">
+        <i data-lucide="camera" class="photo-upload-icon"></i>
+        <span class="photo-upload-text">Tomar foto</span>
+      </div>
+      <input type="file" id="photo-cama-1" accept="image/*" style="display: none;" capture="environment" onchange="previewImage(this, this.parentElement)">
+    </div>
+  </div>
+  <!-- Botón para agregar más fotos -->
+  <div class="photo-actions">
+    <button type="button" onclick="agregarOtraFoto('cama')" class="btn-agregar-foto">
+      + Agregar otra foto
+    </button>
+  </div>
+</div>
         </div>
       </div>
 
@@ -491,6 +571,37 @@
               </div>
             </div>
           </div>
+          <div class="photo-section">
+  <h3 class="photo-section-title">
+    <i data-lucide="camera"></i>
+    Evidencia Fotográfica - Pisos Limpios
+  </h3>
+  <div class="photo-upload" data-section="pisos">
+    <div class="photo-upload-item" onclick="document.getElementById('photo-pisos-1').click()">
+      <div class="photo-upload-label">Alfombras aspiradas</div>
+      <div class="photo-upload-content">
+        <i data-lucide="camera" class="photo-upload-icon"></i>
+        <span class="photo-upload-text">Tomar foto</span>
+      </div>
+      <input type="file" id="photo-pisos-1" accept="image/*" style="display: none;" capture="environment" onchange="previewImage(this, this.parentElement)">
+    </div>
+    
+    <div class="photo-upload-item" onclick="document.getElementById('photo-pisos-2').click()">
+      <div class="photo-upload-label">Pisos trapeados</div>
+      <div class="photo-upload-content">
+        <i data-lucide="camera" class="photo-upload-icon"></i>
+        <span class="photo-upload-text">Tomar foto</span>
+      </div>
+      <input type="file" id="photo-pisos-2" accept="image/*" style="display: none;" capture="environment" onchange="previewImage(this, this.parentElement)">
+    </div>
+  </div>
+  <!-- Botón para agregar más fotos -->
+  <div class="photo-actions">
+    <button type="button" onclick="agregarOtraFoto('pisos')" class="btn-agregar-foto">
+      + Agregar otra foto
+    </button>
+  </div>
+</div>
         </div>
       </div>
 
@@ -574,6 +685,37 @@
               </div>
             </div>
           </div>
+          <div class="photo-section">
+  <h3 class="photo-section-title">
+    <i data-lucide="camera"></i>
+    Evidencia Fotográfica - Amenidades Colocadas
+  </h3>
+  <div class="photo-upload" data-section="amenidades">
+    <div class="photo-upload-item" onclick="document.getElementById('photo-amenidades-1').click()">
+      <div class="photo-upload-label">Toallas colocadas</div>
+      <div class="photo-upload-content">
+        <i data-lucide="camera" class="photo-upload-icon"></i>
+        <span class="photo-upload-text">Tomar foto</span>
+      </div>
+      <input type="file" id="photo-amenidades-1" accept="image/*" style="display: none;" capture="environment" onchange="previewImage(this, this.parentElement)">
+    </div>
+    
+    <div class="photo-upload-item" onclick="document.getElementById('photo-amenidades-2').click()">
+      <div class="photo-upload-label">Agua y amenidades</div>
+      <div class="photo-upload-content">
+        <i data-lucide="camera" class="photo-upload-icon"></i>
+        <span class="photo-upload-text">Tomar foto</span>
+      </div>
+      <input type="file" id="photo-amenidades-2" accept="image/*" style="display: none;" capture="environment" onchange="previewImage(this, this.parentElement)">
+    </div>
+  </div>
+  <!-- Botón para agregar más fotos -->
+  <div class="photo-actions">
+    <button type="button" onclick="agregarOtraFoto('amenidades')" class="btn-agregar-foto">
+      + Agregar otra foto
+    </button>
+  </div>
+</div>
         </div>
       </div>
 
@@ -674,23 +816,29 @@
         </div>
       </div>
     </div>
-
     <div class="photo-section">
-      <h3 class="photo-section-title">
-        <i data-lucide="camera"></i>
-        Evidencia Fotográfica - Habitación Terminada
-      </h3>
-      <div class="photo-upload">
-        <div class="photo-upload-item" onclick="document.getElementById('photo-final-1').click()">
-          <div class="photo-upload-label">Vista general de la habitación (Limpia)</div>
-          <div class="photo-upload-content">
-            <i data-lucide="camera" class="photo-upload-icon"></i>
-            <span class="photo-upload-text">Tomar foto</span>
-          </div>
-          <input type="file" id="photo-final-1" accept="image/*" style="display: none;"  capture="environment" onchange="previewImage(this, this.parentElement)">
-        </div>
+  <h3 class="photo-section-title">
+    <i data-lucide="camera"></i>
+    Evidencia Fotográfica - Habitación Terminada
+  </h3>
+  <div class="photo-upload" data-section="final">
+    <div class="photo-upload-item" onclick="document.getElementById('photo-final-1').click()">
+      <div class="photo-upload-label">Vista general de la habitación (Limpia)</div>
+      <div class="photo-upload-content">
+        <i data-lucide="camera" class="photo-upload-icon"></i>
+        <span class="photo-upload-text">Tomar foto</span>
       </div>
+      <input type="file" id="photo-final-1" accept="image/*" style="display: none;" capture="environment" onchange="previewImage(this, this.parentElement)">
     </div>
+  </div>
+  <!-- Botón para agregar más fotos -->
+  <div class="photo-actions">
+    <button type="button" onclick="agregarOtraFoto('final')" class="btn-agregar-foto">
+      + Agregar otra foto
+    </button>
+  </div>
+</div>
+     
   </div>
 </div>
       <!-- Sección de reporte final -->

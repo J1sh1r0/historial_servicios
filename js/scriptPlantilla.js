@@ -82,6 +82,169 @@ function previewImage(input, container) {
   }
 }
 
+// Contadores para cada sección (ACTUALIZADOS con todas las secciones)
+let contadorFotos = {
+  inicial: 2,
+  recoleccion: 3,
+  bano: 3,
+  superficies: 3,
+  cama: 2,
+  pisos: 3,
+  amenidades: 3,
+  final: 2
+};
+
+// Función para agregar otra foto según la sección
+function agregarOtraFoto(seccion) {
+  const contenedor = document.querySelector(`.photo-upload[data-section="${seccion}"]`);
+  if (!contenedor) {
+    console.error(`No se encontró el contenedor para la sección: ${seccion}`);
+    return;
+  }
+
+  const original = contenedor.firstElementChild;
+  const clon = original.cloneNode(true);
+
+  // Asignar nuevo ID según la sección
+  const nuevoId = `photo-${seccion}-${contadorFotos[seccion]}`;
+  const input = clon.querySelector('input');
+  input.id = nuevoId;
+  input.value = ""; // limpia archivo seleccionado
+
+  // Actualizar onclick
+  clon.setAttribute("onclick", `document.getElementById('${nuevoId}').click()`);
+
+  // Cambiar etiqueta de título según la sección
+  const labelTexto = obtenerLabelTexto(seccion, contadorFotos[seccion]);
+  clon.querySelector('.photo-upload-label').innerText = labelTexto;
+
+  // Restaurar contenido del icono
+  clon.querySelector('.photo-upload-content').innerHTML = `
+    <i data-lucide="camera" class="photo-upload-icon"></i>
+    <span class="photo-upload-text">Tomar foto</span>
+  `;
+
+  // Actualizar onchange del input
+  input.setAttribute("onchange", "previewImage(this, this.parentElement)");
+
+  // Agregar botón de eliminar SOLO para fotos adicionales
+  const botonEliminar = document.createElement('button');
+  botonEliminar.className = 'btn-eliminar-foto';
+  botonEliminar.innerHTML = '×';
+  botonEliminar.title = 'Eliminar foto';
+  botonEliminar.style.cssText = `
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  `;
+  botonEliminar.onclick = function(e) {
+    e.stopPropagation(); // Evita que se active el click para tomar foto
+    eliminarFoto(clon, seccion);
+  };
+
+  // Hacer el contenedor relativo para posicionar el botón
+  clon.style.position = 'relative';
+  clon.appendChild(botonEliminar);
+
+  // Agregar al contenedor
+  contenedor.appendChild(clon);
+
+  // Incrementar contador de la sección específica
+  contadorFotos[seccion]++;
+
+  // Si usas Lucide u otra librería de íconos, refresca los íconos
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+}
+
+// Función para obtener el texto del label según la sección (ACTUALIZADA)
+function obtenerLabelTexto(seccion, contador) {
+  const textos = {
+    inicial: `Foto adicional del estado inicial ${contador}`,
+    recoleccion: `Foto adicional de recolección ${contador}`,
+    bano: `Foto adicional del baño ${contador}`,
+    superficies: `Foto adicional de superficies ${contador}`,
+    cama: `Foto adicional de la cama ${contador}`,
+    pisos: `Foto adicional de pisos ${contador}`,
+    amenidades: `Foto adicional de amenidades ${contador}`,
+    final: `Foto adicional final ${contador}`
+  };
+  return textos[seccion] || `Foto adicional ${contador}`;
+}
+
+// Función para eliminar fotos adicionales
+function eliminarFoto(elemento, seccion) {
+  // Confirmación antes de eliminar
+  if (confirm('¿Estás seguro de que quieres eliminar esta foto?')) {
+    elemento.remove();
+    // Actualizar las etiquetas de todas las fotos adicionales de esta sección
+    actualizarEtiquetasFotos(seccion);
+  }
+}
+
+// Función para actualizar las etiquetas de las fotos adicionales de una sección específica
+function actualizarEtiquetasFotos(seccion) {
+  const contenedor = document.querySelector(`.photo-upload[data-section="${seccion}"]`);
+  if (!contenedor) return;
+
+  const fotosAdicionales = Array.from(contenedor.children).slice(1); // Excluir la primera foto
+  
+  fotosAdicionales.forEach((foto, index) => {
+    const label = foto.querySelector('.photo-upload-label');
+    const nuevoContador = index + 2; // Empezar desde 2 porque la primera foto ya existe
+    label.innerText = obtenerLabelTexto(seccion, nuevoContador);
+  });
+  
+  // Actualizar el contador para la próxima foto de esta sección
+  contadorFotos[seccion] = fotosAdicionales.length + 2;
+}
+
+// Función para obtener todas las fotos de una sección específica
+function obtenerFotosSeccion(seccion) {
+  const contenedor = document.querySelector(`.photo-upload[data-section="${seccion}"]`);
+  if (!contenedor) return [];
+
+  const inputs = contenedor.querySelectorAll('input[type="file"]');
+  const fotos = [];
+  
+  inputs.forEach(input => {
+    if (input.files && input.files[0]) {
+      fotos.push({
+        file: input.files[0],
+        id: input.id,
+        seccion: seccion
+      });
+    }
+  });
+  
+  return fotos;
+}
+
+// Función para obtener todas las fotos de todas las secciones (ACTUALIZADA)
+function obtenerTodasLasFotos() {
+  const secciones = ['inicial', 'recoleccion', 'bano', 'superficies', 'cama', 'pisos', 'amenidades', 'final'];
+  const todasLasFotos = {};
+  
+  secciones.forEach(seccion => {
+    todasLasFotos[seccion] = obtenerFotosSeccion(seccion);
+  });
+  
+  return todasLasFotos;
+}
+
 // Funciones para la firma
 let isDrawing = false;
 const canvas = document.getElementById('signature-canvas');

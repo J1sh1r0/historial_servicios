@@ -1169,3 +1169,72 @@ select.field-error:focus {
   border-radius: 4px;
 }
 
+.photo-upload {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.photo-upload-item {
+  flex: 1 1 250px;
+  min-height: 200px;
+  border: 2px dashed #c4c4c4;
+  border-radius: 10px;
+  position: relative;
+  padding: 1rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.3s;
+}
+
+.photo-upload-item:hover {
+  border-color: #007bff;
+}
+
+.photo-upload-label {
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.photo-upload-content {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+}
+
+.photo-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+
+.photo-actions {
+  margin-top: var(--space-4);
+  display: flex;
+  justify-content: flex-start;
+}
+
+.btn-agregar-foto {
+  background-color: var(--gray-100);
+  color: var(--gray-800);
+  border: 2px solid var(--gray-300);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: background-color var(--transition-base), border-color var(--transition-base), color var(--transition-base);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-agregar-foto:hover {
+  background-color: var(--gray-200);
+  border-color: var(--primary-500);
+  color: var(--primary-700);
+}
